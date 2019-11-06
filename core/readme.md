@@ -16,7 +16,7 @@ java -jar target/core-*.jar
 ```
 
 ### Health check
-http://localhost:9090/jsontools/actuator/health
+http://localhost:9090/core/actuator/health
 
 ### API
-http://localhost:9090/jsontools/swagger-ui.html
+http://localhost:9090/core/swagger-ui.html
