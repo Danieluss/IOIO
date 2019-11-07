@@ -12,7 +12,7 @@ import java.io.IOException;
 @Configuration
 public class FilterConfig {
 
-    private static final String CONFIG_FILE = "src/test/resources/filters/default_whitelist.json";
+    private static final String CONFIG_FILE = "filters/default_whitelist.json";
     private final ObjectMapper mapper;
 
     public FilterConfig(ObjectMapper mapper) {
