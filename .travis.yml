@@ -7,7 +7,7 @@ deploy:
   on:
     branch: master
   - provider: releases
-  api_key: $GITHUB_OAUTH_TOKEN
+  api_key: $GITHUB_TOKEN
   file: ioio-bundle/target/ioio-bundle-*-bundle.zip
   skip_cleanup: true
   keep_history: true
