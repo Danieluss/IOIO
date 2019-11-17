@@ -1,14 +1,20 @@
 package com.ioio.jsontools.core.aspect.log;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
+import org.springframework.stereotype.Component;
 
+@Slf4j
+@AllArgsConstructor
+@Component
 public class LoggerAdapter {
 
     private Logger logger;
 
-    public LoggerAdapter(Logger logger) {
-        this.logger = logger;
+    public LoggerAdapter() {
+        this.logger = log;
     }
 
     public void log(String string, Level level) {
