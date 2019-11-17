@@ -23,14 +23,16 @@
         <rest-assured.version>4.1.2</rest-assured.version>
         <javadoc.version>3.1.1</javadoc.version>
         <mvn-site-plugin.version>3.7.1</mvn-site-plugin.version>
+        <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
     <modules>
-        <module>core</module>
-        <module>frontend</module>
+        <module>ioio-core</module>
+        <module>ioio-frontend</module>
+        <module>ioio-bundle</module>
     </modules>
 
     <build>

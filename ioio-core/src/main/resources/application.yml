@@ -12,4 +12,4 @@ logging.level:
 server:
   port: 9090
   servlet:
-    context-path: /core
+    context-path: /ioio-core

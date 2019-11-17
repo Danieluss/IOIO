@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.TYPE})
 public @interface LogMethodCall {
 
-    Level logLevel() default Level.DEBUG;
+    Level logLevel() default Level.INFO;
 
     boolean before() default true;
 

@@ -7,7 +7,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -18,9 +17,8 @@ public class LogMethodCallAspect {
 
     private LoggerAdapter loggerAdapter;
 
-    @PostConstruct
-    private void init() {
-        loggerAdapter = new LoggerAdapter(log);
+    public LogMethodCallAspect(LoggerAdapter loggerAdapter) {
+        this.loggerAdapter = loggerAdapter;
     }
 
     private void logMethodCall(JoinPoint joinPoint, LogMethodCall methodCallAnnotation) {
@@ -41,7 +39,9 @@ public class LogMethodCallAspect {
     }
     private void logMethodReturn(JoinPoint joinPoint, LogMethodCall methodCallAnnotation, Object returnValue) {
         if (methodCallAnnotation.after()) {
-            loggerAdapter.log("<-- Returning: " + returnValue.toString(),
+            loggerAdapter.log("<-- Returning from "
+                            + joinPoint.getSignature() +
+                            ": " + returnValue.toString(),
                     methodCallAnnotation.logLevel());
         }
     }

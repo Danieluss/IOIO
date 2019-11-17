@@ -12,11 +12,11 @@ please note that using other keymaps may result in impotence, diabetes and cance
 ### Running
 ```
 mvn clean package
-java -jar target/core-*.jar
+java -jar target/ioio-core-*.jar
 ```
 
 ### Health check
-http://localhost:9090/core/actuator/health
+http://localhost:9090/ioio-core/actuator/health
 
 ### API
-http://localhost:9090/core/swagger-ui.html
+http://localhost:9090/ioio-core/swagger-ui.html
