@@ -26,6 +26,6 @@ public class FilterConfig {
 
     @Bean
     public JsonNode whitelistRoot(Resource configFile) throws IOException {
-        return mapper.readTree(configFile.getFile());
+        return mapper.readTree(configFile.getInputStream());
     }
 }
