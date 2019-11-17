@@ -1,0 +1,12 @@
+{
+  "field0": {
+    "field00": {
+      "field000": true,
+      "field001": true
+    }
+  },
+  "field1": true,
+  "field2": {
+    "field20": true
+  }
+}

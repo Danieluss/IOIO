@@ -1,8 +1,14 @@
 language: java
 deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  keep_history: true
-  on:
-    branch: master
+    - provider: pages
+      github_token: $GITHUB_TOKEN
+      skip_cleanup: true
+      keep_history: true
+      on:
+        branch: master
+    - provider: releases
+      api_key: $GITHUB_TOKEN
+      file_glob: true
+      file: ioio-bundle/target/ioio-bundle-*-bundle.zip
+      skip_cleanup: true
+      draft: true
