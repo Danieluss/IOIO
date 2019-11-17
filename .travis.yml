@@ -10,5 +10,4 @@ deploy:
   api_key: $GITHUB_TOKEN
   file: ioio-bundle/target/ioio-bundle-*-bundle.zip
   skip_cleanup: true
-  on:
-    branch: master
+  draft: true
