@@ -40,23 +40,21 @@ public class FilterService {
     }
 
     private ChildAction visit(JsonNode parent, JsonNode filterParent, Filter filter) {
-        if (!(filterParent.isValueNode() && filterParent.booleanValue())) {
-            if (parent.isValueNode()) {
-                return visitValueNode((ValueNode) parent, filterParent, filter);
-            } else if (parent.isObject()) {
-                visitObjectNode((ObjectNode) parent, filterParent, filter);
-            } else if (parent.isArray()) {
-                visitArrayNode((ArrayNode) parent, filterParent, filter);
-            }
+        if (parent.isValueNode()) {
+            return visitValueNode(parent, filterParent, filter);
+        } else if (parent.isObject()) {
+            visitObjectNode((ObjectNode) parent, filterParent, filter);
+        } else if (parent.isArray()) {
+            visitArrayNode((ArrayNode) parent, filterParent, filter);
         }
-        return parent.size() == 0 && !parent.isValueNode() ? DELETE : LEAVE;
+        return parent.size() == 0 ? DELETE : LEAVE;
     }
 
-    private ChildAction visitArrayNode(ArrayNode parent, JsonNode filterParent, Filter filter) {
-        if (filterParent.has(ARRAY)) {
+    private void visitArrayNode(ArrayNode parent, JsonNode filterParent, Filter filter) {
+        if (filterParent.isArray()) { //what about filterParent.has(ARRAY)?
             var removalList = new LinkedList<Integer>();
             for (int i = 0; i < parent.size(); i++) {
-                if (visit(parent.get(i), filterParent.get(ARRAY), filter) == DELETE) {
+                if (visit(parent.get(i), filterParent.get(i), filter) == DELETE) {
                     removalList.add(i);
                 }
             }
@@ -64,13 +62,18 @@ public class FilterService {
             for (var index : removalList) {
                 parent.remove(index - removedCount++);
             }
-        } else {
-            return DELETE;
+        } else if (!(filterParent.isValueNode() && filterParent.booleanValue() == filter.isWhitelisted())){
+            parent.removeAll();
         }
-        return null;
     }
 
     private void visitObjectNode(ObjectNode parent, JsonNode filterParent, Filter filter) {
+        if(filterParent.isValueNode()) {
+            if(filterParent.booleanValue() != filter.isWhitelisted()) {
+                parent.removeAll();
+            }
+            return;
+        }
         var entries = parent.fields();
         var removalList = new LinkedList<String>();
         while (entries.hasNext()) {
@@ -81,15 +84,19 @@ public class FilterService {
                 if (visit(value, filterParent.get(key), filter) == DELETE) {
                     removalList.add(key);
                 }
-            } else {
+            } else if (filter.isWhitelisted()){
                 removalList.add(key);
             }
         }
         removalList.forEach(((ObjectNode) parent)::remove);
     }
 
-    private ChildAction visitValueNode(ValueNode node, JsonNode filterNode, Filter filter) {
-        return (filterNode.isObject() && filterNode.has(LEAF) && filterNode.get(LEAF).booleanValue()) ? LEAVE : DELETE;
+    private ChildAction visitValueNode(JsonNode node, JsonNode filterNode, Filter filter) {
+        if (filterNode.isObject()) {
+            return (filterNode.has(LEAF) && filterNode.get(LEAF).booleanValue() == filter.isWhitelisted()) ? LEAVE : DELETE;
+        } else {
+            return (filterNode.booleanValue() == filter.isWhitelisted()) ? LEAVE : DELETE;
+        }
     }
 
 }
