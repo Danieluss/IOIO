@@ -51,18 +51,18 @@ public class FilterServiceTest {
         whitelistTest("{\"some_field\": [1,2,3,4]}",
                 "{}",
                 "{}");
-//        whitelistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
-//                "{\"some_field\": {\"__array__\": {\"nested_object\": true}}}",
-//                "{\"some_field\":[{\"nested_object\":123}]}");
-//        whitelistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
-//                "{\"some_field\": {\"__array__\": {\"nested_object\": true}}}",
-//                "{\"some_field\":[{\"nested_object\":123}]}");
-//        whitelistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
-//                "{\"some_field\": {\"__array__\": {\"nested_object\": true}}}",
-//                "{\"some_field\":[{\"nested_object\":123}]}");
-//        whitelistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
-//                "{\"some_field\": {\"__array__\": {\"__leaf__\": true}}}",
-//                "{\"some_field\":[1,2,3,4]}");
+        whitelistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
+                "{\"some_field\": {\"__array__\": {\"nested_object\": true}}}",
+                "{\"some_field\":[{\"nested_object\":123}]}");
+        whitelistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
+                "{\"some_field\": {\"__array__\": {\"nested_object\": true}}}",
+                "{\"some_field\":[{\"nested_object\":123}]}");
+        whitelistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
+                "{\"some_field\": {\"__array__\": {\"nested_object\": true}}}",
+                "{\"some_field\":[{\"nested_object\":123}]}");
+        whitelistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
+                "{\"some_field\": {\"__array__\": {\"__leaf__\": true}}}",
+                "{\"some_field\":[1,2,3,4]}");
 
         whitelistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
                 "{\"some_field\": [true, true, true, true, {\"nested_object\": false}]}",
@@ -73,6 +73,9 @@ public class FilterServiceTest {
         whitelistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
                 "{\"some_field\": [true, false, true, false, true]}",
                 "{\"some_field\":[1,3,{\"nested_object\":123}]}");
+        whitelistTest("{\"arr\": [{\"x\":123, \"y\":543333}, {\"x\":1, \"y\":2}, {\"x\":-21, \"y\":76}, {\"x\":36, \"y\":0}]}",
+                "{\"arr\":{\"__array__\":{\"x\":true}}}",
+                "{\"arr\":[{\"x\":123},{\"x\":1},{\"x\":-21},{\"x\":36}]}");
     }
 
     @Test
@@ -127,9 +130,9 @@ public class FilterServiceTest {
         blacklistTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
                 "{\"some_field\": [true, false, true, false, true]}",
                 "{\"some_field\":[2,4]}");
-        blacklistTest("{\"some_field\": [1,2,3,4,{\"nested_object\":123}]}",
-                "{\"some_field\": [false, true, false, true, false]}",
-                "{\"some_field\":[1,3,{\"nested_object\":123}]}");
+        blacklistTest("{\"arr\": [{\"x\":123, \"y\":543333}, {\"x\":1, \"y\":2}, {\"x\":-21, \"y\":76}, {\"x\":36, \"y\":0}]}",
+                "{\"arr\":{\"__array__\":{\"x\":true}}}",
+                "{\"arr\":[{\"y\":543333},{\"y\":2},{\"y\":76},{\"y\":0}]}");
     }
 
 }
