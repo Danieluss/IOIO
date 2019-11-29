@@ -6,6 +6,7 @@ import com.ioio.jsontools.core.service.filter.Filter;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,43 @@ public class APIControllerV1Test {
         assertEquals(result, expected);
     }
 
-    // System.out.println("Response Body is =>  " +
-    // whitelist, blacklist, maxifier, minifier
+    private String buildAPIRequest(String json, String filter) throws org.json.JSONException {
+        return new JSONObject()
+                .put("json", json)
+                .put("filter", filter).toString();
+    }
+
+    @Test
+    public void shouldShouldWhitelist() throws org.json.JSONException {
+        String payload = buildAPIRequest("{\"some_field\": 123, \"some_other_field\": 1234}", "{\"some_field\": true}");
+        String expected = "{\"some_field\":123}";
+
+        String result = given()
+                .contentType(ContentType.JSON)
+                .body(payload)
+                .post("http://localhost:" + port + "/api/v1/filter/whitelist")
+                .then()
+                .statusCode(200)
+                .extract()
+                .asString();
+
+        assertEquals(result, expected);
+    }
+
+    @Test
+    public void shouldShouldBlacklist() throws org.json.JSONException {
+        String payload = buildAPIRequest("{\"some_field\": {\"nested_object1\": {\"nested_object\": 123}, \"nested_object2\": {\"nested_object\": 456}}}", "{\"some_field\": {\"nested_object1\": {\"nested_object\": true}}}");
+        String expected = "{\"some_field\":{\"nested_object2\":{\"nested_object\":456}}}";
+
+        String result = given()
+                .contentType(ContentType.JSON)
+                .body(payload)
+                .post("http://localhost:" + port + "/api/v1/filter/blacklist")
+                .then()
+                .statusCode(200)
+                .extract()
+                .asString();
+
+        assertEquals(result, expected);
+    }
 }
