@@ -17,14 +17,14 @@ public class MinifierTest {
     }
 
     @Test
-    public void testSimpleObjects() throws JsonProcessingException {
+    public void shouldDoSimpleObjects() throws JsonProcessingException {
         minificationTest("{\n  \"some_field\" : 123\n}", "{\"some_field\":123}");
         minificationTest("{\n  \"some_object\" : {\n    \"x\" : 964,\n    \"y\" : \"aaaxx\"\n  }\n}",
                 "{\"some_object\":{\"x\":964,\"y\":\"aaaxx\"}}");
     }
 
     @Test
-    public void testArrays() throws JsonProcessingException {
+    public void shouldDoArrays() throws JsonProcessingException {
         minificationTest("{\n  \"probably_array\" : [ 1, 2, 3, 4 ]\n}",
                 "{\"probably_array\":[1,2,3,4]}");
         minificationTest("{\n  \"some_nested_array\" : [ 1, {\n    \"inner_array\" : [ \"abc\", \"def\" ]\n  }, 3, 4 ]\n}",
@@ -32,7 +32,7 @@ public class MinifierTest {
     }
 
     @Test
-    public void testEmpty() throws JsonProcessingException {
+    public void shouldDoEmpty() throws JsonProcessingException {
         minificationTest("{ }", "{}");
         minificationTest("{              }", "{}");
     }
