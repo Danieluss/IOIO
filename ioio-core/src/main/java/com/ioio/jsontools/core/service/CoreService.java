@@ -14,27 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CoreService {
-    private FilterService filterService = new FilterService(new ObjectMapper(), null);
-    private JsonModifier jsonModifierMaxifier = new Maxifier(new JsonModifierImpl());
-	private JsonModifier jsonModifierMinifier = new Minifier(new JsonModifierImpl());
-
     public String ping() {
         return "Server responded properly.";
     }
-
-	public String whitelist(String json, String filter) throws JsonProcessingException {
-		return filterService.filter(json, filter, Filter.WHITELIST);
-	}
-
-	public String blacklist(String json, String filter) throws JsonProcessingException {
-		return filterService.filter(json, filter, Filter.BLACKLIST);
-	}
-
-	public String maxifier(String json) throws JsonProcessingException {
-		return jsonModifierMaxifier.modify(json);
-	}
-
-	public String minifier(String json) throws JsonProcessingException {
-		return jsonModifierMinifier.modify(json);
-	}
 }
