@@ -14,7 +14,6 @@ import com.ioio.jsontools.core.service.maxification.Maxifier;
 import com.ioio.jsontools.core.service.minification.Minifier;
 import org.springframework.stereotype.Service;
 
-@Service
 public class BlacklistBind extends AbstractBind {
     private FilterService filterService = new FilterService(new ObjectMapper(), null);
     private String json;

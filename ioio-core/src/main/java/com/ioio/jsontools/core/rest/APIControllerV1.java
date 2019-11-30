@@ -3,29 +3,22 @@ package com.ioio.jsontools.core.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.Lists;
 import com.ioio.jsontools.core.aspect.log.LogMethodCall;
 import com.ioio.jsontools.core.service.bind.*;
-import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import com.ioio.jsontools.core.service.CoreService;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 @LogMethodCall
 @RestController
 @RequestMapping("/api/v1/")
 public class APIControllerV1 {
-	private final CoreService coreService;
     private Map<String, AbstractBind> binds;
 
     public APIControllerV1(CoreService coreService) {
-        this.coreService = coreService;
-
         this.binds.put("filter/blacklist", new BlacklistBind());
         this.binds.put("filter/whitelist", new WhitelistBind());
         this.binds.put("modifier/maxifier", new MaxifierBind());

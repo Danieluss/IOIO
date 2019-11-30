@@ -14,7 +14,6 @@ import com.ioio.jsontools.core.service.maxification.Maxifier;
 import com.ioio.jsontools.core.service.minification.Minifier;
 import org.springframework.stereotype.Service;
 
-@Service
 public class MaxifierBind extends AbstractBind {
     private JsonModifier jsonModifierMaxifier = new Maxifier(new JsonModifierImpl());
     private String json;
