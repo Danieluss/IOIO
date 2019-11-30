@@ -122,3 +122,41 @@ $ curl -X POST \
 
 {"some_field":{"nested_object2":{"nested_object":456}}}
 ```
+
+**All**
+
+```bash
+$ curl -X POST \
+  http://localhost:9090/ioio-core/api/v1/do \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Length: 457' \
+  -H 'Content-Type: application/json' \
+  -H 'Host: localhost:9090' \
+  -H 'Postman-Token: 0345d8dd-2bb4-4ac4-9d8c-64ef1a4321f2,6bd4db19-f8ea-49ab-8547-1fb6f34494ab' \
+  -H 'User-Agent: PostmanRuntime/7.20.1' \
+  -H 'cache-control: no-cache' \
+  -d '{
+    "json": "{\"some_field\": {\"nested_object1\": {\"nested_object\": 123}, \"nested_object2\": {\"nested_object\": 456}}}",
+    "features": [
+        {
+            "type": "filter/blacklist",
+            "payload": "{\"some_field\": {\"nested_object1\": {\"nested_object\": true}}}"
+        },
+        {
+            "type": "modifier/maxifier"
+        }
+    ]
+}'
+
+{
+  "some_field" : {
+    "nested_object2" : {
+      "nested_object" : 456
+    }
+  }
+}
+```
+
