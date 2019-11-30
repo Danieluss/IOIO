@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ioio.jsontools.core.CoreApp;
 import com.ioio.jsontools.core.service.filter.Filter;
 import com.ioio.jsontools.core.service.filter.FilterService;
+import com.ioio.jsontools.core.service.minification.Minifier;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
@@ -209,5 +210,35 @@ public class APIControllerV1Test {
         blacklistTest("{\"arr\": [{\"x\":123, \"y\":543333}, {\"x\":1, \"y\":2}, {\"x\":-21, \"y\":76}, {\"x\":36, \"y\":0}]}",
                 "{\"arr\":{\"__array__\":{\"x\":true}}}",
                 "{\"arr\":[{\"y\":543333},{\"y\":2},{\"y\":76},{\"y\":0}]}");
+    }
+
+    private JsonModifier jsonModifier = new Minifier(new JsonModifierImpl());
+
+    private void minificationTest(String json, String expectedResponse) throws JsonProcessingException, JSONException {
+        String response = jsonModifier.modify(json);
+        assertEquals(expectedResponse, response);
+        basicTestStrategy(json,
+                expectedResponse, "modifier/minifier");
+    }
+
+    @Test
+    public void shouldDoSimpleObjects() throws JsonProcessingException, JSONException {
+        minificationTest("{\n  \"some_field\" : 123\n}", "{\"some_field\":123}");
+        minificationTest("{\n  \"some_object\" : {\n    \"x\" : 964,\n    \"y\" : \"aaaxx\"\n  }\n}",
+                "{\"some_object\":{\"x\":964,\"y\":\"aaaxx\"}}");
+    }
+
+    @Test
+    public void shouldDoArrays() throws JsonProcessingException, JSONException {
+        minificationTest("{\n  \"probably_array\" : [ 1, 2, 3, 4 ]\n}",
+                "{\"probably_array\":[1,2,3,4]}");
+        minificationTest("{\n  \"some_nested_array\" : [ 1, {\n    \"inner_array\" : [ \"abc\", \"def\" ]\n  }, 3, 4 ]\n}",
+                "{\"some_nested_array\":[1,{\"inner_array\":[\"abc\",\"def\"]},3,4]}");
+    }
+
+    @Test
+    public void shouldDoEmpty() throws JsonProcessingException, JSONException {
+        minificationTest("{ }", "{}");
+        minificationTest("{              }", "{}");
     }
 }

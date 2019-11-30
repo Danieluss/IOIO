@@ -9,12 +9,14 @@ import com.ioio.jsontools.core.service.JsonModifier;
 import com.ioio.jsontools.core.service.JsonModifierImpl;
 import com.ioio.jsontools.core.service.maxification.Maxifier;
 
+import com.ioio.jsontools.core.service.minification.Minifier;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CoreService {
     private FilterService filterService = new FilterService(new ObjectMapper(), null);
     private JsonModifier jsonModifierMaxifier = new Maxifier(new JsonModifierImpl());
+	private JsonModifier jsonModifierMinifier = new Minifier(new JsonModifierImpl());
 
     public String ping() {
         return "Server responded properly.";
@@ -33,6 +35,6 @@ public class CoreService {
 	}
 
 	public String minifier(String json) throws JsonProcessingException {
-		return "NOT IMPLEMENTED"; // FIXME: @blazej.krzyzanek
+		return jsonModifierMinifier.modify(json);
 	}
 }
