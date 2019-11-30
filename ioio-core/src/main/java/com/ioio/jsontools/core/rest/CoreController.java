@@ -1,6 +1,5 @@
 package com.ioio.jsontools.core.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ioio.jsontools.core.aspect.log.LogMethodCall;
 import org.springframework.web.bind.annotation.*;
 import com.ioio.jsontools.core.service.CoreService;

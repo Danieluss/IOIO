@@ -5,10 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.ioio.jsontools.core.aspect.log.LogMethodCall;
 import com.ioio.jsontools.core.service.bind.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import com.ioio.jsontools.core.service.CoreService;
 
 import java.util.HashMap;
 import java.util.Iterator;
