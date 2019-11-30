@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.ioio.jsontools.core.aspect.log.LogMethodCall;
 import com.ioio.jsontools.core.service.bind.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import com.ioio.jsontools.core.service.CoreService;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -18,7 +20,8 @@ import java.util.Map;
 public class APIControllerV1 {
     private Map<String, AbstractBind> binds;
 
-    public APIControllerV1(CoreService coreService) {
+    public APIControllerV1() {
+        this.binds = new HashMap<>();
         this.binds.put("filter/blacklist", new BlacklistBind());
         this.binds.put("filter/whitelist", new WhitelistBind());
         this.binds.put("modifier/maxifier", new MaxifierBind());
@@ -29,30 +32,26 @@ public class APIControllerV1 {
 
     @PostMapping(value = "/modifier/maxifier")
     public String modifierMaxifier(@RequestBody String json) throws JsonProcessingException {
-        AbstractBind bind = this.binds.get("modifier/maxifier");
         PayloadType plainPayload = new PayloadType(json);
-        return bind.parse(plainPayload);
+        return this.binds.get("modifier/maxifier").parse(plainPayload);
 	}
 
     @PostMapping(value = "/modifier/minifier")
     public String modifierMinifier(@RequestBody String json) throws JsonProcessingException {
-        AbstractBind bind = this.binds.get("modifier/minifier");
         PayloadType plainPayload = new PayloadType(json);
-        return bind.parse(plainPayload);
+        return this.binds.get("modifier/minifier").parse(plainPayload);
 	}
 
     @PostMapping(value = "/filter/whitelist", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String filterWhitelist(@RequestBody ObjectNode request) throws JsonProcessingException {
-        AbstractBind bind = this.binds.get("filter/whitelist");
         PayloadType plainPayload = new PayloadType(request);
-        return bind.parse(plainPayload);
+        return this.binds.get("filter/whitelist").parse(plainPayload);
 	}
 
     @PostMapping(value = "/filter/blacklist", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String filterBlacklist(@RequestBody ObjectNode request) throws JsonProcessingException {
-        AbstractBind bind = this.binds.get("filter/blacklist");
         PayloadType plainPayload = new PayloadType(request);
-        return bind.parse(plainPayload);
+        return this.binds.get("filter/blacklist").parse(plainPayload);
 	}
 
     @PostMapping(value = "/do", consumes = MediaType.APPLICATION_JSON_VALUE)
