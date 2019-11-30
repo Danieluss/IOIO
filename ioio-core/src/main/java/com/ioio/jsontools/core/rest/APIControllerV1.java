@@ -38,32 +38,28 @@ public class APIControllerV1 {
     public String modifierMaxifier(@RequestBody String json) throws JsonProcessingException {
         AbstractBind bind = this.binds.get("modifier/maxifier");
         PayloadType plainPayload = new PayloadType(json);
-        bind.set(plainPayload);
-        return bind.run();
+        return bind.parse(plainPayload);
 	}
 
     @PostMapping(value = "/modifier/minifier")
     public String modifierMinifier(@RequestBody String json) throws JsonProcessingException {
         AbstractBind bind = this.binds.get("modifier/minifier");
         PayloadType plainPayload = new PayloadType(json);
-        bind.set(plainPayload);
-        return bind.run();
+        return bind.parse(plainPayload);
 	}
 
     @PostMapping(value = "/filter/whitelist", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String filterWhitelist(@RequestBody ObjectNode request) throws JsonProcessingException {
         AbstractBind bind = this.binds.get("filter/whitelist");
         PayloadType plainPayload = new PayloadType(request);
-        bind.set(plainPayload);
-        return bind.run();
+        return bind.parse(plainPayload);
 	}
 
     @PostMapping(value = "/filter/blacklist", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String filterBlacklist(@RequestBody ObjectNode request) throws JsonProcessingException {
         AbstractBind bind = this.binds.get("filter/blacklist");
         PayloadType plainPayload = new PayloadType(request);
-        bind.set(plainPayload);
-        return bind.run();
+        return bind.parse(plainPayload);
 	}
 
     @PostMapping(value = "/do", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -83,8 +79,7 @@ public class APIControllerV1 {
                 if (type.equals(bind.name())) {
                     PayloadType plainPayload = new PayloadType(json);
                     plainPayload.options = payload;
-                    bind.set(plainPayload);
-                    json = bind.run();
+                    json = bind.parse(plainPayload);
                 }
             }
         }
