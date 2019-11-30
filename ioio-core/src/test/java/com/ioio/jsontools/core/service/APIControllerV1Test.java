@@ -66,6 +66,30 @@ public class APIControllerV1Test {
     }
 
     @Test
+    public void shouldShouldDoAll() throws org.json.JSONException {
+        basicTestStrategy("{\n" +
+                        "    \"json\": \"{\\\"some_field\\\": {\\\"nested_object1\\\": {\\\"nested_object\\\": 123}, \\\"nested_object2\\\": {\\\"nested_object\\\": 456}}}\",\n" +
+                        "    \"features\": [\n" +
+                        "        {\n" +
+                        "            \"type\": \"filter/blacklist\",\n" +
+                        "            \"payload\": \"{\\\"some_field\\\": {\\\"nested_object1\\\": {\\\"nested_object\\\": true}}}\"\n" +
+                        "        },\n" +
+                        "        {\n" +
+                        "            \"type\": \"modifier/maxifier\"\n" +
+                        "        }\n" +
+                        "    ]\n" +
+                        "}",
+                "{\n" +
+                        "  \"some_field\" : {\n" +
+                        "    \"nested_object2\" : {\n" +
+                        "      \"nested_object\" : 456\n" +
+                        "    }\n" +
+                        "  }\n" +
+                        "}",
+                "do");
+    }
+
+    @Test
     public void shouldShouldWhitelist() throws org.json.JSONException {
         basicTestStrategy( buildAPIPayload("{\"some_field\": 123, \"some_other_field\": 1234}",
                 "{\"some_field\": true}"),
