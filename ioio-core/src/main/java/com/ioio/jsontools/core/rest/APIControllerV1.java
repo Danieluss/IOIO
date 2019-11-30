@@ -78,16 +78,8 @@ public class APIControllerV1 {
             if (type.equals("filter/blacklist")) {
                 json = coreService.blacklist(json, payload);
             }
-
-            System.out.println("element type =>" + type + "|" + payload);
         }
-
 
         return json;
-        //ObjectNode features = request.get("features");
-        /*for (E element : features) {
-
-        }
-        return coreService.whitelist(json, filter);*/
     }
 }
