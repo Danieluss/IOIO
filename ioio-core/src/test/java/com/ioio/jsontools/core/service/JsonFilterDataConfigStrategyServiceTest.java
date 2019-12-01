@@ -2,18 +2,19 @@ package com.ioio.jsontools.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ioio.jsontools.core.service.filter.Filter;
-import com.ioio.jsontools.core.service.filter.FilterService;
+import com.ioio.jsontools.core.service.filter.FilterStrategy;
+import com.ioio.jsontools.core.service.filter.JsonFilter;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FilterServiceTest {
+public class JsonFilterDataConfigStrategyServiceTest {
 
-    private FilterService filterService = new FilterService(new ObjectMapper(), null);
+    private JsonFilter blacklist = new JsonFilter(new ObjectMapper(), FilterStrategy.BLACKLIST);
+    private JsonFilter whitelist = new JsonFilter(new ObjectMapper(), FilterStrategy.WHITELIST);
 
     private void whitelistTest(String json, String filter, String expectedResponse) throws JsonProcessingException {
-        String response = filterService.filter(json, filter, Filter.WHITELIST);
+        String response = whitelist.filter(json, filter);
         assertEquals(expectedResponse, response);
     }
 
@@ -86,7 +87,7 @@ public class FilterServiceTest {
     }
 
     private void blacklistTest(String json, String filter, String expectedResponse) throws JsonProcessingException {
-        String response = filterService.filter(json, filter, Filter.BLACKLIST);
+        String response = blacklist.filter(json, filter);
         assertEquals(expectedResponse, response);
     }
 

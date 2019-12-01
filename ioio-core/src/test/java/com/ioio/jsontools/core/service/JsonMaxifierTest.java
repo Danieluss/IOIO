@@ -1,15 +1,14 @@
-package com.ioio.jsontools.core.service.maxification;
+package com.ioio.jsontools.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ioio.jsontools.core.service.JsonModifier;
-import com.ioio.jsontools.core.service.JsonModifierImpl;
+import com.ioio.jsontools.core.service.whitespace.JsonMaxifier;
 import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MaxifierTest {
+public class JsonMaxifierTest {
 
-    JsonModifier jsonModifier = new Maxifier(new JsonModifierImpl());
+    JsonModifier jsonModifier = new JsonMaxifier(new JsonModifierImpl());
 
     private void maxificationTest(String json, String expectedResponse) throws JsonProcessingException {
         String response = jsonModifier.modify(json);
@@ -17,7 +16,7 @@ public class MaxifierTest {
     }
 
     @Test
-    public void testSimpleObjects() throws JsonProcessingException {
+    public void shouldMaxifySimpleObjects() throws JsonProcessingException {
         maxificationTest("{\"some_field\": 123}",
                 "{\n  \"some_field\" : 123\n}");
         maxificationTest("{\"some_object\": {\"x\": 964, \"y\": \"aaaxx\"}}",
@@ -25,7 +24,7 @@ public class MaxifierTest {
     }
 
     @Test
-    public void testArrays() throws JsonProcessingException {
+    public void shouldMaxifyArrays() throws JsonProcessingException {
         maxificationTest("{\"probably_array\":[1, 2, 3, 4]}",
                 "{\n  \"probably_array\" : [ 1, 2, 3, 4 ]\n}");
         maxificationTest("{\"some_nested_array\":[1, {\"inner_array\": [\"abc\", \"def\"]}, 3, 4]}",
@@ -33,7 +32,7 @@ public class MaxifierTest {
     }
 
     @Test
-    public void testEmpty() throws JsonProcessingException {
+    public void shouldMaxifyEmptyJson() throws JsonProcessingException {
         maxificationTest("{}", "{ }");
     }
 }

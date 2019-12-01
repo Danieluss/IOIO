@@ -1,40 +1,56 @@
 package com.ioio.jsontools.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.ioio.jsontools.core.service.filter.Filter;
-import com.ioio.jsontools.core.service.filter.FilterService;
-import com.ioio.jsontools.core.service.JsonModifier;
-import com.ioio.jsontools.core.service.JsonModifierImpl;
-import com.ioio.jsontools.core.service.maxification.Maxifier;
-
-import com.ioio.jsontools.core.service.minification.Minifier;
+import com.ioio.jsontools.core.rest.data.ModifierData;
+import com.ioio.jsontools.core.service.filter.JsonFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.inject.Provider;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
 
 @Service
 public class CoreService {
-    private FilterService filterService = new FilterService(new ObjectMapper(), null);
-    private JsonModifier jsonModifierMaxifier = new Maxifier(new JsonModifierImpl());
-	private JsonModifier jsonModifierMinifier = new Minifier(new JsonModifierImpl());
+	@Autowired
+    private JsonFilter whitelist;
+	@Autowired
+	private JsonFilter blacklist;
+	@Autowired
+    private JsonModifier minifier;
+	@Autowired
+	private JsonModifier maxifier;
+	@Autowired
+	private Provider<JsonModifier.Builder> jsonModifierBuilderProvider;
 
     public String ping() {
         return "Server responded properly.";
     }
 
 	public String whitelist(String json, String filter) throws JsonProcessingException {
-		return filterService.filter(json, filter, Filter.WHITELIST);
+		return whitelist.filter(json, filter);
 	}
 
 	public String blacklist(String json, String filter) throws JsonProcessingException {
-		return filterService.filter(json, filter, Filter.BLACKLIST);
+		return blacklist.filter(json, filter);
 	}
 
-	public String maxifier(String json) throws JsonProcessingException {
-		return jsonModifierMaxifier.modify(json);
+	public String maxify(String json) throws JsonProcessingException {
+		return maxifier.modify(json);
 	}
 
-	public String minifier(String json) throws JsonProcessingException {
-		return jsonModifierMinifier.modify(json);
+	public String minify(String json) throws JsonProcessingException {
+		return minifier.modify(json);
+	}
+
+	public String combine(String json, List<ModifierData> modifiers) throws JsonProcessingException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+		JsonModifier.Builder builder = jsonModifierBuilderProvider.get();
+        Class<JsonModifier.Builder> builderClass = (Class<JsonModifier.Builder>) builder.getClass();
+		for (ModifierData modifier : modifiers) {
+			Method method = builderClass.getMethod(modifier.getType().toString().toLowerCase(),String.class);
+			method.invoke(builder, modifier.getParams());
+        }
+		return builder.build().modify(json);
 	}
 }

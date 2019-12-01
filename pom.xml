@@ -21,6 +21,8 @@
         <lombok.version>1.18.10</lombok.version>
         <aspectj.version>1.9.4</aspectj.version>
         <rest-assured.version>4.1.2</rest-assured.version>
+        <rest-assured-json.version>20190722</rest-assured-json.version>
+        <javax-inject-api.version>1</javax-inject-api.version>
         <javadoc.version>3.1.1</javadoc.version>
         <mvn-site-plugin.version>3.7.1</mvn-site-plugin.version>
         <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
@@ -30,7 +32,9 @@
     </properties>
 
     <modules>
+        <module>ioio-base</module>
         <module>ioio-core</module>
+        <module>ioio-core-api</module>
         <module>ioio-frontend</module>
         <module>ioio-bundle</module>
     </modules>

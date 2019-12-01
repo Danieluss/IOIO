@@ -1,4 +1,4 @@
-package com.ioio.jsontools.core.aspect.log;
+package com.ioio.jsontools.base.aspect.log;
 
 import org.slf4j.event.Level;
 
