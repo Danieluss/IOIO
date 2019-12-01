@@ -3,7 +3,7 @@
 
 
 ## Doc
-https://danieluss.github.io/IOIO/apidocs/
+https://danieluss.github.io/IOIO/docs/apidocs/
 
 # Project structure
 
