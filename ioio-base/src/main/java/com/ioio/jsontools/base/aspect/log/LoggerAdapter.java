@@ -1,4 +1,4 @@
-package com.ioio.jsontools.core.aspect.log;
+package com.ioio.jsontools.base.aspect.log;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

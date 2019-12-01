@@ -1,9 +1,9 @@
-package com.ioio.jsontools.core.data;
+package com.ioio.jsontools.core.rest.data;
 
 import lombok.Data;
 
 @Data
-public class JsonFilter {
+public class JsonFilterData {
     private String json;
     private String filter;
 }

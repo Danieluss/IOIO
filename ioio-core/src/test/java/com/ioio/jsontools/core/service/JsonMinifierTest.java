@@ -1,15 +1,14 @@
-package com.ioio.jsontools.core.service.minification;
+package com.ioio.jsontools.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ioio.jsontools.core.service.JsonModifier;
-import com.ioio.jsontools.core.service.JsonModifierImpl;
+import com.ioio.jsontools.core.service.whitespace.JsonMinifier;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MinifierTest {
+public class JsonMinifierTest {
 
-    private JsonModifier jsonModifier = new Minifier(new JsonModifierImpl());
+    private JsonModifier jsonModifier = new JsonMinifier(new JsonModifierImpl());
 
     private void minificationTest(String json, String expectedResponse) throws JsonProcessingException {
         String response = jsonModifier.modify(json);
@@ -24,7 +23,7 @@ public class MinifierTest {
     }
 
     @Test
-    public void shouldDoArrays() throws JsonProcessingException {
+    public void shouldMinifyArrays() throws JsonProcessingException {
         minificationTest("{\n  \"probably_array\" : [ 1, 2, 3, 4 ]\n}",
                 "{\"probably_array\":[1,2,3,4]}");
         minificationTest("{\n  \"some_nested_array\" : [ 1, {\n    \"inner_array\" : [ \"abc\", \"def\" ]\n  }, 3, 4 ]\n}",
@@ -32,7 +31,7 @@ public class MinifierTest {
     }
 
     @Test
-    public void shouldDoEmpty() throws JsonProcessingException {
+    public void shouldMinifyEmptyJson() throws JsonProcessingException {
         minificationTest("{ }", "{}");
         minificationTest("{              }", "{}");
     }

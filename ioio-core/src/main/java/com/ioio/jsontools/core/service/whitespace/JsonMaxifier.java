@@ -1,46 +1,42 @@
-package com.ioio.jsontools.core.service.minification;
+package com.ioio.jsontools.core.service.whitespace;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ioio.jsontools.core.service.JsonModifier;
 import com.ioio.jsontools.core.service.JsonModifierDecorator;
 
 /**
- * Class for minification of json.
- *
- * @author blkrzyzanek
+ * Class maxifying json string
+ * @author Kamil Piechowiak
  * @version 1.0
- * @since 2019-11-24
+ * @since 2019-11-22
  */
-public class Minifier extends JsonModifierDecorator {
+public class JsonMaxifier extends JsonModifierDecorator {
 
     /**
-     * Decorator's constructor
-     *
+     * Constructor
      * @param jsonModifier object that is decorated
      */
-    public Minifier(JsonModifier jsonModifier) {
+    public JsonMaxifier(JsonModifier jsonModifier) {
         super(jsonModifier);
     }
 
     /**
-     * Method that changes json string received from previous decorators to a minified form
-     *
+     * Method that changes json string received from previous decorators to a maxified form
      * @param json string to parse
      * @return maxified json in string format
      * @throws JsonProcessingException for invalid json format
      */
     public String modify(String json) throws JsonProcessingException {
-        return minify(super.modify(json));
+        return maxify(super.modify(json));
     }
 
     /**
-     * Method that changes json string to a minified form
-     *
+     * Method that changes json string to a maxified form
      * @param json string to parse
      * @return maxified json in string format
      * @throws JsonProcessingException for invalid json format
      */
-    private String minify(String json) throws JsonProcessingException {
-        return objectMapper.readTree(json).toString();
+    private String maxify(String json) throws JsonProcessingException {
+        return objectMapper.readTree(json).toPrettyString();
     }
 }
