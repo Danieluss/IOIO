@@ -31,6 +31,11 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
+    <scm>
+        <connection>scm:git:https://Danieluss@github.com/ioio.git</connection>
+        <developerConnection>scm:git:https://Danieluss@github.com/ioio.git</developerConnection>
+    </scm>
+
     <modules>
         <module>ioio-base</module>
         <module>ioio-core</module>
@@ -50,6 +55,14 @@
                     <reportOutputDirectory>${maven.multiModuleProjectDirectory}/docs</reportOutputDirectory>
                 </configuration>
                 <inherited>false</inherited>
+            </plugin>
+            <plugin>
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
+                <version>1.0-m3</version>
+                <configuration>
+                    <noDeploy>true</noDeploy>
+                </configuration>
             </plugin>
         </plugins>
     </build>
