@@ -1,37 +1,55 @@
 package com.ioio.jsontools.core.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ioio.jsontools.core.aspect.log.LogMethodCall;
-import com.ioio.jsontools.core.data.JsonFilter;
-import com.ioio.jsontools.core.service.filter.Filter;
-import com.ioio.jsontools.core.service.filter.FilterService;
+import com.ioio.jsontools.base.aspect.log.LogMethodCall;
+import com.ioio.jsontools.core.rest.data.JsonFilterData;
+import com.ioio.jsontools.core.rest.data.JsonModifiersData;
+import com.ioio.jsontools.core.service.CoreService;
 import org.springframework.web.bind.annotation.*;
+
+import java.lang.reflect.InvocationTargetException;
+
+import static com.ioio.jsontools.core.rest.CoreRestDescriptor.*;
 
 @LogMethodCall
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/" + API + "/" + VERSION)
 public class CoreController {
+	private final CoreService coreService;
 
-    private final FilterService filterService;
-
-    public CoreController(FilterService filterService) {
-        this.filterService = filterService;
+    public CoreController(CoreService coreService) {
+        this.coreService = coreService;
     }
+
+	// FIXME: advanced exception catches? status codes? itp.
 
     @GetMapping(value = "/ping")
     public String ping() {
-        return "Server responded properly.";
+        return coreService.ping();
     }
 
-    @PostMapping(value = "/whitelist/")
-    public String whitelist(@RequestBody JsonFilter jsonFilter)
-            throws JsonProcessingException {
-        var filter = jsonFilter.getFilter();
-        var json = jsonFilter.getJson();
-        if (filter != null && !filter.isEmpty()) {
-            return filterService.filter(json, filter, Filter.WHITELIST);
-        }
-        return filterService.filter(json, Filter.WHITELIST);
-    }
+    @PostMapping(value = MAXIFY_REST)
+    public String maxify(@RequestBody String json) throws JsonProcessingException {
+        return coreService.maxify(json);
+	}
 
+    @PostMapping(value = MINIFY_REST)
+    public String minify(@RequestBody String json) throws JsonProcessingException {
+        return coreService.minify(json);
+	}
+
+    @PostMapping(value = WHITELIST_REST)
+    public String whitelist(@RequestBody JsonFilterData jsonFilterData) throws JsonProcessingException {
+        return coreService.whitelist(jsonFilterData.getJson(), jsonFilterData.getFilter());
+	}
+
+    @PostMapping(value = BLACKLIST_REST)
+    public String blacklist(@RequestBody JsonFilterData jsonFilterData) throws JsonProcessingException {
+        return coreService.blacklist(jsonFilterData.getJson(), jsonFilterData.getFilter());
+	}
+
+    @PostMapping(value = COMBINED_REST)
+    public String combine(@RequestBody JsonModifiersData jsonModifiersData) throws JsonProcessingException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        return coreService.combine(jsonModifiersData.getJson(), jsonModifiersData.getModifiers());
+    }
 }

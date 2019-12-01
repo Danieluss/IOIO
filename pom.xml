@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ioio</groupId>
     <artifactId>ioio</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <packaging>pom</packaging>
 
@@ -21,6 +20,8 @@
         <lombok.version>1.18.10</lombok.version>
         <aspectj.version>1.9.4</aspectj.version>
         <rest-assured.version>4.1.2</rest-assured.version>
+        <rest-assured-json.version>20190722</rest-assured-json.version>
+        <javax-inject-api.version>1</javax-inject-api.version>
         <javadoc.version>3.1.1</javadoc.version>
         <mvn-site-plugin.version>3.7.1</mvn-site-plugin.version>
         <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
@@ -29,8 +30,15 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
+    <scm>
+        <connection>scm:git:https://Danieluss@github.com/ioio.git</connection>
+        <developerConnection>scm:git:https://Danieluss@github.com/ioio.git</developerConnection>
+    </scm>
+
     <modules>
+        <module>ioio-base</module>
         <module>ioio-core</module>
+        <module>ioio-core-api</module>
         <module>ioio-frontend</module>
         <module>ioio-bundle</module>
     </modules>
@@ -46,6 +54,14 @@
                     <reportOutputDirectory>${maven.multiModuleProjectDirectory}/docs</reportOutputDirectory>
                 </configuration>
                 <inherited>false</inherited>
+            </plugin>
+            <plugin>
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
+                <version>1.0-m3</version>
+                <configuration>
+                    <noDeploy>true</noDeploy>
+                </configuration>
             </plugin>
         </plugins>
     </build>
