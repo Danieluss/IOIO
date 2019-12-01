@@ -1,12 +1,15 @@
 package com.ioio.jsontools.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ioio.jsontools.core.CoreApp;
-import com.ioio.jsontools.core.rest.AvailableModifier;
+import com.ioio.jsontools.core.rest.ModifierType;
+import com.ioio.jsontools.core.rest.data.JsonFilterData;
+import com.ioio.jsontools.core.rest.data.JsonModifiersData;
+import com.ioio.jsontools.core.rest.data.ModifierData;
 import io.restassured.http.ContentType;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.ioio.jsontools.core.rest.CoreRestDescriptor.*;
 import static io.restassured.RestAssured.get;
@@ -30,6 +32,13 @@ public class CoreControllerTest {
 
     @Value("${local.server.port}")
     private int port;
+
+    private ObjectMapper objectMapper;
+
+    @Before
+    public void init() {
+        objectMapper = new ObjectMapper();
+    }
 
     @Test
     public void shouldSayPongForOurPing() {
@@ -53,21 +62,19 @@ public class CoreControllerTest {
         assertEquals(result, expected);
     }
 
-    private String buildAPIPayload(String json, String filter) throws org.json.JSONException {
-        return new JSONObject()
-                .put("json", json)
-                .put("filter", filter).toString();
+    private String buildAPIPayload(String json, String filter) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(new JsonFilterData(json, filter));
     }
 
     @Test
-    public void shouldShouldMaxifier() throws org.json.JSONException {
+    public void shouldShouldMaxifier() {
         basicTestStrategy("{\"obj\": {\"arr\": [{ \"def\": 999}, { \"def\": 112}], \"xyz\": \"value\"}}",
                 "{\n  \"obj\" : {\n    \"arr\" : [ {\n      \"def\" : 999\n    }, {\n      \"def\" : 112\n    } ],\n    \"xyz\" : \"value\"\n  }\n}",
                 MAXIFY_REST);
     }
 
     @Test
-    public void shouldShouldWhitelist() throws org.json.JSONException {
+    public void shouldShouldWhitelist() throws JsonProcessingException {
         basicTestStrategy(buildAPIPayload("{\"some_field\": 123, \"some_other_field\": 1234}",
                 "{\"some_field\": true}"),
                 "{\"some_field\":123}",
@@ -75,21 +82,21 @@ public class CoreControllerTest {
     }
 
     @Test
-    public void shouldShouldBlacklist() throws org.json.JSONException {
+    public void shouldShouldBlacklist() throws JsonProcessingException {
         basicTestStrategy(buildAPIPayload("{\"some_field\": {\"nested_object1\": {\"nested_object\": 123}, \"nested_object2\": {\"nested_object\": 456}}}",
                 "{\"some_field\": {\"nested_object1\": {\"nested_object\": true}}}"),
                 "{\"some_field\":{\"nested_object2\":{\"nested_object\":456}}}",
                 BLACKLIST_REST);
     }
 
-    private void whitelistTest(String json, String filter, String expectedResponse) throws JSONException {
+    private void whitelistTest(String json, String filter, String expectedResponse) throws JsonProcessingException {
         basicTestStrategy(
                 buildAPIPayload(json, filter),
                 expectedResponse, WHITELIST_REST);
     }
 
     @Test
-    public void shouldTranslateLikeWhitelist() throws JsonProcessingException, JSONException {
+    public void shouldTranslateLikeWhitelist() throws JsonProcessingException {
         whitelistTest("{\"some_field\": 123}",
                 "{}",
                 "{}");
@@ -102,7 +109,7 @@ public class CoreControllerTest {
     }
 
     @Test
-    public void shouldHandleNestedObjects() throws JsonProcessingException, JSONException {
+    public void shouldHandleNestedObjects() throws JsonProcessingException {
         whitelistTest("{\"some_field\": {\"nested_object\": 123}}",
                 "{}",
                 "{}");
@@ -118,7 +125,7 @@ public class CoreControllerTest {
     }
 
     @Test
-    public void shouldHandleArrays() throws JsonProcessingException, JSONException {
+    public void shouldHandleArrays() throws JsonProcessingException {
         whitelistTest("{\"some_field\": [1,2,3,4]}",
                 "{}",
                 "{}");
@@ -150,88 +157,88 @@ public class CoreControllerTest {
     }
 
     @Test
-    public void shouldDiscardEmpty() throws JsonProcessingException, JSONException {
+    public void shouldDiscardEmpty() throws JsonProcessingException {
         whitelistTest("{\"some_field\": []}",
                 "{\"some_field\": true}",
                 "{}");
     }
 
-    private void blacklistTest(String json, String filter, String expectedResponse) throws JSONException {
+    private void blacklistTest(String json, String filter, String expectedResponse) throws JsonProcessingException {
         basicTestStrategy(
                 buildAPIPayload(json, filter),
                 expectedResponse, BLACKLIST_REST);
     }
 
     @Test
-    public void shouldTranslateLikeBlacklist() throws JsonProcessingException, JSONException {
+    public void shouldTranslateLikeBlacklist() throws JsonProcessingException {
         blacklistTest("{\"some_field\": 123, \"some_other_field\": 1234}",
                 "{\"some_field\": true}",
                 "{\"some_other_field\":1234}");
     }
 
     @Test
-    public void shouldHandleNestedObjectsBlack() throws JsonProcessingException, JSONException {
+    public void shouldHandleNestedObjectsBlack() throws JsonProcessingException {
         blacklistTest("{\"some_field\": {\"nested_object1\": {\"nested_object\": 123}, \"nested_object2\": {\"nested_object\": 456}}}",
                 "{\"some_field\": {\"nested_object1\": {\"nested_object\": true}}}",
                 "{\"some_field\":{\"nested_object2\":{\"nested_object\":456}}}");
     }
 
     @Test
-    public void shouldHandleArraysBlack() throws JsonProcessingException, JSONException {
+    public void shouldHandleArraysBlack() throws JsonProcessingException {
         blacklistTest("{\"arr\": [{\"x\":123, \"y\":543333}, {\"x\":1, \"y\":2}, {\"x\":-21, \"y\":76}, {\"x\":36, \"y\":0}]}",
                 "{\"arr\":{\"__array__\":{\"x\":true}}}",
                 "{\"arr\":[{\"y\":543333},{\"y\":2},{\"y\":76},{\"y\":0}]}");
     }
 
-    private void minificationTest(String json, String expectedResponse) throws JSONException {
+    private void minificationTest(String json, String expectedResponse) {
         basicTestStrategy(json,
                 expectedResponse, MINIFY_REST);
     }
 
     @Test
-    public void shouldDoSimpleObjects() throws JsonProcessingException, JSONException {
+    public void shouldDoSimpleObjects() throws JsonProcessingException {
         minificationTest("{\n  \"some_object\" : {\n    \"x\" : 964,\n    \"y\" : \"aaaxx\"\n  }\n}",
                 "{\"some_object\":{\"x\":964,\"y\":\"aaaxx\"}}");
     }
 
     @Test
-    public void shouldDoArrays() throws JsonProcessingException, JSONException {
+    public void shouldDoArrays() throws JsonProcessingException {
         minificationTest("{\n  \"probably_array\" : [ 1, 2, 3, 4 ]\n}",
                 "{\"probably_array\":[1,2,3,4]}");
     }
 
     @Test
-    public void shouldDoEmpty() throws JsonProcessingException, JSONException {
+    public void shouldDoEmpty() throws JsonProcessingException {
         minificationTest("{              }", "{}");
     }
 
-    private String buildAPIPayload(String json, List<AvailableModifier> modifiers, List<String> params) throws org.json.JSONException {
-        return new JSONObject()
-                .put("json", json)
-                .put("modifiers", new JSONArray(modifiers.stream().map(Enum::toString).collect(Collectors.toList())))
-                .put("params", new JSONArray(params))
-                .toString();
+    private String buildAPIPayload(String json, List<ModifierData> modifiers) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(new JsonModifiersData(json, modifiers));
     }
 
 
-    private void combinedTest(String json, List<AvailableModifier> modifiers, List<String> params, String expectedResponse) throws JSONException {
+    private void combinedTest(String json, List<ModifierData> modifiers, String expectedResponse) throws JSONException, JsonProcessingException {
         basicTestStrategy(
-                buildAPIPayload(json, modifiers, params),
+                buildAPIPayload(json, modifiers),
                 expectedResponse, COMBINED_REST);
     }
 
     @Test
-    public void shouldWhitelistAndMaxify() throws JSONException {
-        combinedTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}", Arrays.asList(AvailableModifier.WHITELIST, AvailableModifier.MAXIFY), Arrays.asList("", ""), "{ }");
+    public void shouldWhitelistAndMaxify() throws JSONException, JsonProcessingException {
+        combinedTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}", Arrays.asList(new ModifierData(ModifierType.WHITELIST, ""), new ModifierData(ModifierType.MAXIFY, "")), "{ }");
     }
 
     @Test
-    public void shouldNotFuckupIndices() throws JSONException {
-        combinedTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}", Arrays.asList(AvailableModifier.MINIFY, AvailableModifier.WHITELIST, AvailableModifier.MAXIFY), Arrays.asList("", "{\"some_field\": true}", ""), "{\n" +
-                "  \"some_field\" : [ 1, 2, 3, 4, {\n" +
-                "    \"nested_object\" : 123\n" +
-                "  } ]\n" +
-                "}");
+    public void shouldNotScrewIndices() throws JSONException, JsonProcessingException {
+        combinedTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
+                Arrays.asList(
+                        new ModifierData(ModifierType.MINIFY, ""),
+                        new ModifierData(ModifierType.WHITELIST, "{\"some_field\": true}"),
+                        new ModifierData(ModifierType.MAXIFY, "")), "{\n" +
+                        "  \"some_field\" : [ 1, 2, 3, 4, {\n" +
+                        "    \"nested_object\" : 123\n" +
+                        "  } ]\n" +
+                        "}");
     }
 
 }

@@ -48,6 +48,6 @@ public class CoreController {
 
     @PostMapping(value = COMBINED_REST)
     public String combine(@RequestBody JsonModifiersData jsonModifiersData) throws JsonProcessingException {
-        return coreService.combine(jsonModifiersData.getJson(), jsonModifiersData.getModifiers(), jsonModifiersData.getParams());
+        return coreService.combine(jsonModifiersData.getJson(), jsonModifiersData.getModifiers());
     }
 }

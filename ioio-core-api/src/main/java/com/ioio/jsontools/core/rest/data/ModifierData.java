@@ -1,17 +1,16 @@
 package com.ioio.jsontools.core.rest.data;
 
+import com.ioio.jsontools.core.rest.ModifierType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class JsonModifiersData {
+public class ModifierData {
 
-    private String json;
-    private List<ModifierData> modifiers;
+    public ModifierType type;
+    public String params;
 
 }

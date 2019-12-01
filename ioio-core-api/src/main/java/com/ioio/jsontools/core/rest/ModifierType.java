@@ -1,5 +1,5 @@
 package com.ioio.jsontools.core.rest;
 
-public enum AvailableModifier {
+public enum ModifierType {
     MAXIFY, MINIFY, WHITELIST, BLACKLIST
 }

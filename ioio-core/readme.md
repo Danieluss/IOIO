@@ -27,7 +27,7 @@ http://localhost:9090/ioio-core/swagger-ui.html
 
 ```bash
 $ curl -X POST \
-  http://localhost:9090/ioio-core/api/v1/modifier/minifier \
+  http://localhost:9090/ioio-core/api/v1/modifier/minify \
   -H 'Accept: */*' \
   -H 'Accept-Encoding: gzip, deflate' \
   -H 'Cache-Control: no-cache' \
@@ -56,7 +56,7 @@ $ curl -X POST \
 
 ```bash
 $ curl -X POST \
-  http://localhost:9090/ioio-core/api/v1/modifier/maxifier \
+  http://localhost:9090/ioio-core/api/v1/modifier/maxify \
   -H 'Accept: */*' \
   -H 'Accept-Encoding: gzip, deflate' \
   -H 'Cache-Control: no-cache' \
@@ -121,4 +121,38 @@ $ curl -X POST \
 }'
 
 {"some_field":{"nested_object2":{"nested_object":456}}}
+```
+
+**Combined**
+
+```bash
+$ curl -X POST \
+  http://localhost:9090/ioio-core/api/v1/combined \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Length: 457' \
+  -H 'Content-Type: application/json' \
+  -H 'Host: localhost:9090' \
+  -H 'cache-control: no-cache' \
+  -d '{
+    "json": "{\"some_field\": {\"nested_object1\": {\"nested_object\": 123}, \"nested_object2\": {\"nested_object\": 456}}}",
+    "features": [
+        {
+            "type": "filter/blacklist",
+            "payload": "{\"some_field\": {\"nested_object1\": {\"nested_object\": true}}}"
+        },
+        {
+            "type": "modifier/maxifier"
+        }
+    ]
+}'
+{
+  "some_field" : {
+    "nested_object2" : {
+      "nested_object" : 456
+    }
+  }
+}
 ```

@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class JsonModifierDecoratorTest {
+public class JsonModifierDataDecoratorTest {
 
     private void testDecorators(JsonModifier jsonModifier, String json, String expectedResponse) throws JsonProcessingException {
         String response = jsonModifier.modify(json);

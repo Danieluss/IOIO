@@ -1,7 +1,7 @@
 package com.ioio.jsontools.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ioio.jsontools.core.rest.AvailableModifier;
+import com.ioio.jsontools.core.rest.data.ModifierData;
 import com.ioio.jsontools.core.service.filter.JsonFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,15 +42,15 @@ public class CoreService {
 		return minifier.modify(json);
 	}
 
-	public String combine(String json, List<AvailableModifier> modifiers, List<String> params) throws JsonProcessingException {
+	public String combine(String json, List<ModifierData> modifiers) throws JsonProcessingException {
 		JsonModifier.Builder builder = jsonModifierBuilderProvider.get();
-        for (int i = 0; i < modifiers.size(); i++) {
-            switch(modifiers.get(i)) {
+        for (ModifierData modifier : modifiers) {
+            switch(modifier.type) {
                 case WHITELIST:
-                    builder.whitelist(params.get(i));
+                    builder.whitelist(modifier.params);
                     break;
                 case BLACKLIST:
-                    builder.blacklist(params.get(i));
+                    builder.blacklist(modifier.params);
                     break;
                 case MAXIFY:
                     builder.maxify();
