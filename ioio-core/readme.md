@@ -1,5 +1,22 @@
 [![Build Status](https://travis-ci.org/Danieluss/IOIO.svg?branch=master)](https://travis-ci.org/Danieluss/IOIO)
 
+# Project structure
+
+### ioio-base
+Module providing some basic functionalities for micro-services.
+
+### ioio-bundle
+Packaging module.
+
+### ioio-core
+Module containing core functionality.
+
+### ioio-core-api
+Module containing core REST description.
+
+### ioio-frontend
+Frontend module.
+
 # Core
 
 ### Installation
@@ -48,7 +65,7 @@ $ curl -X POST \
     "xyz" : "value"
   }
 }'
-
+------
 {"obj":{"arr":[{"abc":"some text","def":999},{"abc":"some other text","def":112}],"xyz":"value"}}
 ```
 
@@ -66,7 +83,7 @@ $ curl -X POST \
   -H 'Host: localhost:9090' \
   -H 'cache-control: no-cache' \
   -d '{"obj": {"arr": [{"abc": "some text", "def": 999}, {"abc": "some other text", "def": 112}], "xyz": "value"}}'
-
+------
 {
   "obj" : {
     "arr" : [ {
@@ -98,7 +115,7 @@ $ curl -X POST \
 	"json" : "{\"some_field\": 123, \"some_other_field\": 1234}",
 	"filter": "{\"some_field\": true}"
 }'
-
+------
 {"some_field":123}
 ```
 
@@ -119,7 +136,7 @@ $ curl -X POST \
 	"json" : "{\"some_field\": {\"nested_object1\": {\"nested_object\": 123}, \"nested_object2\": {\"nested_object\": 456}}}",
 	"filter": "{\"some_field\": {\"nested_object1\": {\"nested_object\": true}}}"
 }'
-
+------
 {"some_field":{"nested_object2":{"nested_object":456}}}
 ```
 
@@ -136,23 +153,11 @@ $ curl -X POST \
   -H 'Content-Type: application/json' \
   -H 'Host: localhost:9090' \
   -H 'cache-control: no-cache' \
-  -d '{
-    "json": "{\"some_field\": {\"nested_object1\": {\"nested_object\": 123}, \"nested_object2\": {\"nested_object\": 456}}}",
-    "features": [
-        {
-            "type": "filter/blacklist",
-            "payload": "{\"some_field\": {\"nested_object1\": {\"nested_object\": true}}}"
-        },
-        {
-            "type": "modifier/maxifier"
-        }
-    ]
-}'
+  -d '{"json":"{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}","modifiers":[{"type":"MINIFY","params":""},{"type":"WHITELIST","params":"{\"some_field\": true}"},{"type":"MAXIFY","params":""}]}'
+------
 {
-  "some_field" : {
-    "nested_object2" : {
-      "nested_object" : 456
-    }
-  }
+  "some_field" : [ 1, 2, 3, 4, {
+    "nested_object" : 123
+  } ]
 }
 ```
