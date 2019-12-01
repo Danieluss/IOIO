@@ -24,6 +24,8 @@ Frontend module.
 
 # Core
 
+## From source
+
 ### Installation
 1. set `JAVA_HOME` to your java11 JDK directory
 
@@ -35,6 +37,14 @@ please note that using other keymaps may result in impotence, diabetes and cance
 ```bash
 $ mvn clean package
 $ java -jar target/ioio-core-*.jar
+```
+
+## From release
+
+### Running
+```bash
+$ unzip ioio-bundle*
+$ java -jar ioio-bundle*/ioio-core-*.jar
 ```
 
 ### Health check
