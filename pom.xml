@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ioio</groupId>
     <artifactId>ioio</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <packaging>pom</packaging>
 
@@ -31,6 +30,11 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
+    <scm>
+        <connection>scm:git:https://Danieluss@github.com/ioio.git</connection>
+        <developerConnection>scm:git:https://Danieluss@github.com/ioio.git</developerConnection>
+    </scm>
+
     <modules>
         <module>ioio-base</module>
         <module>ioio-core</module>
@@ -50,6 +54,14 @@
                     <reportOutputDirectory>${maven.multiModuleProjectDirectory}/docs</reportOutputDirectory>
                 </configuration>
                 <inherited>false</inherited>
+            </plugin>
+            <plugin>
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
+                <version>1.0-m3</version>
+                <configuration>
+                    <noDeploy>true</noDeploy>
+                </configuration>
             </plugin>
         </plugins>
     </build>
