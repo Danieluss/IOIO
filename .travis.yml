@@ -1,4 +1,7 @@
 language: java
+script:
+  - mvn javadoc:aggregate
+  - mvn verify
 deploy:
   - provider: pages
     github_token: $GITHUB_TOKEN
