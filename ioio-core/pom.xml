@@ -5,23 +5,23 @@
     <parent>
         <groupId>com.ioio</groupId>
         <artifactId>ioio</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
 
     <artifactId>ioio-core</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <dependencies>
         <dependency>
             <groupId>com.ioio</groupId>
             <artifactId>ioio-core-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.ioio</groupId>
             <artifactId>ioio-base</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
