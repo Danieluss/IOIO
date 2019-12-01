@@ -1,0 +1,9 @@
+com.ioio.jsontools.base
+com.ioio.jsontools.base.aspect.log
+com.ioio.jsontools.core
+com.ioio.jsontools.core.config
+com.ioio.jsontools.core.rest
+com.ioio.jsontools.core.rest.data
+com.ioio.jsontools.core.service
+com.ioio.jsontools.core.service.filter
+com.ioio.jsontools.core.service.whitespace

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="com.ioio.jsontools.core.CoreAppTest" time="0.503" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="com.ioio.jsontools.core.CoreAppTest" time="0.396" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="java.vm.version" value="11.0.2+9"/>
@@ -43,7 +43,7 @@
     <property name="java.class.path" value="/usr/local/maven-3.6.0/boot/plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="11"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher test -B"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher verify"/>
     <property name="java.home" value="/usr/local/lib/jvm/openjdk11"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -61,5 +61,5 @@
     <property name="java.vendor.version" value="18.9"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.ioio.jsontools.core.CoreAppTest" name="shouldStartupApplicationContext" time="0.503"/>
+  <testcase classname="com.ioio.jsontools.core.CoreAppTest" name="shouldStartupApplicationContext" time="0.396"/>
 </testsuite>

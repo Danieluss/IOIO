@@ -14,7 +14,7 @@ import static com.ioio.jsontools.core.service.filter.ChildAction.LEAVE;
 /**
  * Class used to traverse json structure in order to remove unwanted fields.
  *
- * @author Daniel Nowak & Kamil Piechowiak
+ * @author Daniel Nowak, Kamil Piechowiak
  * @version 1.1
  * @since  2019-11-7
  */
