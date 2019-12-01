@@ -225,16 +225,16 @@ public class CoreControllerTest {
 
     @Test
     public void shouldWhitelistAndMaxify() throws JSONException, JsonProcessingException {
-        combinedTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}", Arrays.asList(new ModifierData(ModifierType.WHITELIST, ""), new ModifierData(ModifierType.MAXIFY, "")), "{ }");
+        combinedTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}", Arrays.asList(new ModifierData(ModifierType.whitelist, ""), new ModifierData(ModifierType.maxify, "")), "{ }");
     }
 
     @Test
     public void shouldNotScrewIndices() throws JSONException, JsonProcessingException {
         combinedTest("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}",
                 Arrays.asList(
-                        new ModifierData(ModifierType.MINIFY, ""),
-                        new ModifierData(ModifierType.WHITELIST, "{\"some_field\": true}"),
-                        new ModifierData(ModifierType.MAXIFY, "")), "{\n" +
+                        new ModifierData(ModifierType.minify, ""),
+                        new ModifierData(ModifierType.whitelist, "{\"some_field\": true}"),
+                        new ModifierData(ModifierType.maxify, "")), "{\n" +
                         "  \"some_field\" : [ 1, 2, 3, 4, {\n" +
                         "    \"nested_object\" : 123\n" +
                         "  } ]\n" +

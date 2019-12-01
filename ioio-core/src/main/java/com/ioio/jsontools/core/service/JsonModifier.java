@@ -56,6 +56,14 @@ public interface JsonModifier {
             return this;
         }
 
+        public Builder minify(String __) {
+            return minify();
+        }
+
+        public Builder maxify(String __) {
+            return maxify();
+        }
+
         public Builder whitelist(String filter) {
             jsonModifier = new JsonFilterModifier(jsonModifier, filter, whitelist);
             return this;

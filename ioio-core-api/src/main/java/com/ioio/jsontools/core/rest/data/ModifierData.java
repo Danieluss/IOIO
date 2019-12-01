@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class ModifierData {
 
-    public ModifierType type;
-    public String params;
+    private ModifierType type;
+    private String params;
 
 }

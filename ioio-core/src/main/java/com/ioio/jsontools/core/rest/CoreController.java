@@ -7,6 +7,8 @@ import com.ioio.jsontools.core.rest.data.JsonModifiersData;
 import com.ioio.jsontools.core.service.CoreService;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
+
 import static com.ioio.jsontools.core.rest.CoreRestDescriptor.*;
 
 @LogMethodCall
@@ -47,7 +49,7 @@ public class CoreController {
 	}
 
     @PostMapping(value = COMBINED_REST)
-    public String combine(@RequestBody JsonModifiersData jsonModifiersData) throws JsonProcessingException {
+    public String combine(@RequestBody JsonModifiersData jsonModifiersData) throws JsonProcessingException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         return coreService.combine(jsonModifiersData.getJson(), jsonModifiersData.getModifiers());
     }
 }

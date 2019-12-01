@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Provider;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 @Service
@@ -42,23 +44,12 @@ public class CoreService {
 		return minifier.modify(json);
 	}
 
-	public String combine(String json, List<ModifierData> modifiers) throws JsonProcessingException {
+	public String combine(String json, List<ModifierData> modifiers) throws JsonProcessingException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		JsonModifier.Builder builder = jsonModifierBuilderProvider.get();
-        for (ModifierData modifier : modifiers) {
-            switch(modifier.type) {
-                case WHITELIST:
-                    builder.whitelist(modifier.params);
-                    break;
-                case BLACKLIST:
-                    builder.blacklist(modifier.params);
-                    break;
-                case MAXIFY:
-                    builder.maxify();
-                    break;
-                case MINIFY:
-                    builder.minify();
-                    break;
-            }
+        Class<JsonModifier.Builder> builderClass = (Class<JsonModifier.Builder>) builder.getClass();
+		for (ModifierData modifier : modifiers) {
+			Method method = builderClass.getMethod(modifier.getType().toString().toLowerCase(),String.class);
+			method.invoke(builder, modifier.getParams());
         }
 		return builder.build().modify(json);
 	}
