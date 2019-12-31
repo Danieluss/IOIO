@@ -1,0 +1,37 @@
+{
+    "name": "ioio-frontend-app",
+    "version": "1.0.0",
+    "description": "?",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder",
+        "postinstall": "electron-builder install-app-deps && ./node_modules/.bin/electron-rebuild"
+    },
+    "build": {
+        "files": [
+            "**/*",
+            "build/Release/*"
+        ],
+        "appId": "ioio.ioio-frontend-app",
+        "mac": {
+            "category": "public.app-category.utilities"
+        }
+    },
+    "repository": "https://github.com/Danieluss/IOIO",
+    "author": "M. A. Czyzewski",
+    "license": "MIT",
+    "devDependencies": {
+        "electron": "^7.1.7",
+        "electron-builder": "^21.2.0",
+        "electron-rebuild": "^1.8.8"
+    },
+    "dependencies": {
+        "bootstrap": "^4.4.1",
+        "jquery": "^3.4.1",
+        "normalize.css": "^8.0.1",
+        "popper.js": "^1.16.0",
+        "request": "^2.88.0"
+    }
+}
