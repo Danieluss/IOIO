@@ -19,7 +19,7 @@ Module containing core functionality.
 ### ioio-core-api
 Module containing core REST description.
 
-### ioio-frontend
+### ioio-frontend-app
 Frontend module.
 
 # Core
