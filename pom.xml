@@ -39,7 +39,7 @@
         <module>ioio-base</module>
         <module>ioio-core</module>
         <module>ioio-core-api</module>
-        <module>ioio-frontend</module>
+        <module>ioio-frontend-app</module>
         <module>ioio-bundle</module>
     </modules>
 

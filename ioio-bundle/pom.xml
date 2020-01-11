@@ -22,7 +22,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>ioio-frontend</artifactId>
+            <artifactId>ioio-frontend-app</artifactId>
             <version>${project.version}</version>
             <type>jar</type>
             <scope>compile</scope>
@@ -47,6 +47,15 @@
                                 <descriptor>src/main/assembly/bundle.xml</descriptor>
                             </descriptors>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase/>
                     </execution>
                 </executions>
             </plugin>
