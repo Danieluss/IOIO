@@ -7,12 +7,6 @@
         <format>zip</format>
     </formats>
 
-    <files>
-        <file>
-            <source>../ioio-frontend-app/target/ioio-frontend-app-${version}.zip</source>
-        </file>
-    </files>
-
     <includeBaseDirectory>false</includeBaseDirectory>
 
     <dependencySets>
@@ -21,7 +15,6 @@
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <excludes>
                 <exclude>com.ioio:ioio-bundle</exclude>
-                <exclude>com.ioio:ioio-frontend-app</exclude>
             </excludes>
         </dependencySet>
     </dependencySets>
