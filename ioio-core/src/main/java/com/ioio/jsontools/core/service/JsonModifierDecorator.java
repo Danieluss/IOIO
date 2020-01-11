@@ -31,6 +31,16 @@ public class JsonModifierDecorator implements JsonModifier {
     }
 
     /**
+     * Decorator's constructor
+     * @param jsonModifier object that is decorated
+     * @param objectMapper object that needs to be used by decorator
+     */
+    public JsonModifierDecorator(JsonModifier jsonModifier, ObjectMapper objectMapper) {
+        this.jsonModifier = jsonModifier;
+        this.objectMapper = objectMapper;
+    }
+
+    /**
      *  This method modifies json according to jsonModifier settings.
      *  It does not add any new effects.
      * @param json string to parse

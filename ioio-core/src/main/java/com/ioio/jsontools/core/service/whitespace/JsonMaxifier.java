@@ -1,6 +1,7 @@
 package com.ioio.jsontools.core.service.whitespace;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ioio.jsontools.core.service.JsonModifier;
 import com.ioio.jsontools.core.service.JsonModifierDecorator;
 
@@ -18,6 +19,15 @@ public class JsonMaxifier extends JsonModifierDecorator {
      */
     public JsonMaxifier(JsonModifier jsonModifier) {
         super(jsonModifier);
+    }
+
+    /**
+     * Constructor
+     * @param jsonModifier object that is decorated
+     * @param objectMapper object that needs to be used by decorator
+     */
+    public JsonMaxifier(JsonModifier jsonModifier, ObjectMapper objectMapper) {
+        super(jsonModifier, objectMapper);
     }
 
     /**
