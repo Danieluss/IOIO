@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <title>IOIO</title>
+
+    <link rel="stylesheet" href="node_modules/normalize.css/normalize.css" />
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <div class="container">
+        <br>
+
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">ioio-core:</label>
+
+            <div class="form-inline">
+                <input type="text" class="form-control col" id="host" value="localhost:9090">
+                <button type="submit" id="start" class="ml-2 btn
+                  btn-primary">connect</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">json:</label>
+            <textarea class="form-control" id="json" placeholder="{a: 123, b:
+              'omg'}" id="exampleFormControlTextarea1" style="height: 260px">
+{
+  "glossary" : {
+    "title" : "example glossary",
+    "GlossDiv" : {
+      "title" : "S",
+      "GlossList" : {
+        "GlossEntry" : {
+          "ID" : "SGML",
+          "SortAs" : "SGML",
+          "GlossTerm" : "Standard Generalized Markup Language",
+          "Acronym" : "SGML",
+          "Abbrev" : "ISO 8879:1986",
+          "GlossDef" : {
+            "para" : "A meta-markup language, used to create markup languages such as DocBook.",
+            "GlossSeeAlso" : [ "GML", "XML" ]
+          },
+          "GlossSee" : "markup"
+        }
+      }
+    }
+  }
+}
+            </textarea>
+        </div>
+        <div class="form-group">
+
+            <label for="exampleFormControlTextarea1">modifiers:</label>
+            <textarea class="form-control" id="modifiers" placeholder="{a: 123,
+              b: 'omg'}" id="exampleFormControlTextarea1" rows="1">
+[ {"params" : "string", "type" : "minify"} ]
+            </textarea>
+        </div>
+
+
+        <button type="submit" id="run" class="btn btn-primary">run</button>
+
+        <button type="submit" id="minify" class="btn">minify</button>
+        <button type="submit" id="maxify" class="btn">maxify</button>
+
+    </div>
+
+    <script>
+        window.$ = window.jquery = require('jquery');
+        window.popper = require('popper.js');
+        require('bootstrap');
+    </script>
+</body>
+
+</html>
