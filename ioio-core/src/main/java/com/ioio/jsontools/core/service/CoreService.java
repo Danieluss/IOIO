@@ -1,7 +1,9 @@
 package com.ioio.jsontools.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.difflib.algorithm.DiffException;
 import com.ioio.jsontools.core.rest.data.ModifierData;
+import com.ioio.jsontools.core.service.diff.TextDiff;
 import com.ioio.jsontools.core.service.filter.JsonFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ public class CoreService {
 	private JsonModifier maxifier;
 	@Autowired
 	private Provider<JsonModifier.Builder> jsonModifierBuilderProvider;
+
+	private TextDiff textDiff = new TextDiff();
 
     public String ping() {
         return "Server responded properly.";
@@ -52,5 +56,9 @@ public class CoreService {
 			method.invoke(builder, modifier.getParams());
         }
 		return builder.build().modify(json);
+	}
+
+	public String diff(String oldText, String newText) throws DiffException {
+		return textDiff.diff(oldText, newText);
 	}
 }
