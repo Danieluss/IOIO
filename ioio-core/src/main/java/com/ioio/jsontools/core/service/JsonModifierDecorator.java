@@ -26,8 +26,8 @@ public class JsonModifierDecorator implements JsonModifier {
      * @param jsonModifier object that is decorated
      */
     public JsonModifierDecorator(JsonModifier jsonModifier) {
-        this.jsonModifier = jsonModifier;
-        objectMapper = new ObjectMapper();
+        this(jsonModifier, new ObjectMapper());
+
     }
 
     /**
@@ -38,6 +38,7 @@ public class JsonModifierDecorator implements JsonModifier {
     public JsonModifierDecorator(JsonModifier jsonModifier, ObjectMapper objectMapper) {
         this.jsonModifier = jsonModifier;
         this.objectMapper = objectMapper;
+//        this.objectMapper.setDefaultPrettyPrinter(new MinimalPrettyPrinter(""));
     }
 
     /**

@@ -47,6 +47,6 @@ public class JsonMaxifier extends JsonModifierDecorator {
      * @throws JsonProcessingException for invalid json format
      */
     private String maxify(String json) throws JsonProcessingException {
-        return objectMapper.readTree(json).toPrettyString();
+        return objectMapper.readTree(json).toPrettyString().replace(System.lineSeparator(), "\n");
     }
 }

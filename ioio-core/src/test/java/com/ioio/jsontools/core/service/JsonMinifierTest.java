@@ -58,15 +58,4 @@ public class JsonMinifierTest {
 
         verify(objectMapperMock, times(1)).readTree("{\n  \"some_field\" : 123\n}");
     }
-
-    @Test
-    public void shouldUseMinificationOnModifier() throws JsonProcessingException
-    {
-        JsonModifier jsonModifierMock = mock(JsonModifier.class);
-
-        JsonMinifier jsonMinifier = new JsonMinifier(jsonModifierMock);
-        jsonMinifier.modify("{\n  \"some_field\" : 123\n}");
-
-        verify(jsonModifierMock, times(1)).modify("{\n  \"some_field\" : 123\n}");
-    }
 }

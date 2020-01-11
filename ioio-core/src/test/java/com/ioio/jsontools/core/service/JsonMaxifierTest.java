@@ -1,16 +1,18 @@
 package com.ioio.jsontools.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ioio.jsontools.core.service.whitespace.JsonMaxifier;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
 
 public class JsonMaxifierTest {
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     JsonModifier jsonModifier = new JsonMaxifier(new JsonModifierImpl());
 
@@ -38,33 +40,5 @@ public class JsonMaxifierTest {
     @Test
     public void shouldMaxifyEmptyJson() throws JsonProcessingException {
         maxificationTest("{}", "{ }");
-    }
-
-    @Test
-    public void shouldReadPassedJson() throws JsonProcessingException
-    {
-        ObjectMapper objectMapperMock = mock(ObjectMapper.class);
-        JsonNode jsonNodeMock = mock(JsonNode.class);
-
-        when(objectMapperMock.readTree(anyString())).thenReturn(jsonNodeMock);
-
-        JsonMaxifier jsonMaxifier = new JsonMaxifier(new JsonModifierImpl(), objectMapperMock);
-        jsonMaxifier.modify("{\n  \"some_field\" : 123\n}");
-
-        verify(objectMapperMock, times(1)).readTree("{\n  \"some_field\" : 123\n}");
-    }
-
-    @Test
-    public void shouldConvertJsonToPrettyString() throws JsonProcessingException
-    {
-        ObjectMapper objectMapperMock = mock(ObjectMapper.class);
-        JsonNode jsonNodeMock = mock(JsonNode.class);
-
-        when(objectMapperMock.readTree(anyString())).thenReturn(jsonNodeMock);
-
-        JsonMaxifier jsonMaxifier = new JsonMaxifier(new JsonModifierImpl(), objectMapperMock);
-        jsonMaxifier.modify("{\n  \"some_field\" : 123\n}");
-
-        verify(jsonNodeMock, times(1)).toPrettyString();
     }
 }
