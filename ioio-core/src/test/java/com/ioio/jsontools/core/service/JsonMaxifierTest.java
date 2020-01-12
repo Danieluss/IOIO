@@ -2,11 +2,17 @@ package com.ioio.jsontools.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ioio.jsontools.core.service.whitespace.JsonMaxifier;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsonMaxifierTest {
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     JsonModifier jsonModifier = new JsonMaxifier(new JsonModifierImpl());
 

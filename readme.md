@@ -19,7 +19,7 @@ Module containing core functionality.
 ### ioio-core-api
 Module containing core REST description.
 
-### ioio-frontend
+### ioio-frontend-app
 Frontend module.
 
 # Core
@@ -176,3 +176,25 @@ $ curl -X POST \
   } ]
 }
 ```
+
+**Diff**
+```
+$ curl -X POST \
+  http://localhost:9090/ioio-core/api/v1/diff \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Length: 127' \
+  -H 'Content-Type: application/json' \
+  -H 'Host: localhost:9090' \
+  -H 'cache-control: no-cache' \
+  -d '{
+    "oldText": "ABCDELMN\nPPPP\nXXXX\nnextline\nABC\nAAAA\ntest\n",
+    "newText": "ABCFGLMN\nSTH\nXXXX\nABC\ntest\nBBBB\n"
+}'
+------
+{"oldText":[-1,-1,2,-1,3,-1,4],"newText":[-1,-1,2,4,6,-1]}
+```
+Output format:
+There is returned a json object with 2 attributes. Each attribute contains an array which length is equal to the number of lines in the text. If the line is not present in the second text, array element corresponding to this line is equal to -1. Otherwise it contains the index of the line in the second text.
