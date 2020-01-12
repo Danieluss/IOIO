@@ -15,13 +15,13 @@
         <dependency>
             <groupId>com.ioio</groupId>
             <artifactId>ioio-core-api</artifactId>
-            <version>1.0</version>
+            <version>${version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.ioio</groupId>
             <artifactId>ioio-base</artifactId>
-            <version>1.0</version>
+            <version>${version}</version>
         </dependency>
 
         <dependency>
