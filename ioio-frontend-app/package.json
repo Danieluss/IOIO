@@ -20,7 +20,7 @@
         }
     },
     "repository": "https://github.com/Danieluss/IOIO",
-    "author": "M. A. Czyzewski",
+    "author": "bóton",
     "license": "MIT",
     "devDependencies": {
         "electron": "^7.1.7",
