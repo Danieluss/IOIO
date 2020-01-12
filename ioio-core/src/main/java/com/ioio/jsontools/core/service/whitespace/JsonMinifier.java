@@ -1,6 +1,7 @@
 package com.ioio.jsontools.core.service.whitespace;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ioio.jsontools.core.service.JsonModifier;
 import com.ioio.jsontools.core.service.JsonModifierDecorator;
 
@@ -21,6 +22,17 @@ public class JsonMinifier extends JsonModifierDecorator {
     public JsonMinifier(JsonModifier jsonModifier) {
         super(jsonModifier);
     }
+
+    /**
+     * Decorator's constructor
+     *
+     * @param jsonModifier object that is decorated
+     * @param objectMapper object that needs to be used by decorator
+     */
+    public JsonMinifier(JsonModifier jsonModifier, ObjectMapper objectMapper) {
+        super(jsonModifier, objectMapper);
+    }
+
 
     /**
      * Method that changes json string received from previous decorators to a minified form

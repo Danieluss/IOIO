@@ -7,6 +7,7 @@ com/ioio/jsontools/core/service/filter/JsonFilterModifier.class
 com/ioio/jsontools/core/service/JsonModifier.class
 com/ioio/jsontools/core/service/filter/FilterStrategy.class
 com/ioio/jsontools/core/service/JsonModifierDecorator.class
+com/ioio/jsontools/core/service/diff/TextDiff.class
 com/ioio/jsontools/core/config/SwaggerConfig.class
 com/ioio/jsontools/core/service/filter/JsonFilter.class
 com/ioio/jsontools/core/CoreApp.class

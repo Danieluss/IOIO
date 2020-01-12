@@ -1,6 +1,7 @@
 com/ioio/jsontools/core/service/JsonMaxifierTest.class
 com/ioio/jsontools/core/service/CoreControllerTest.class
 com/ioio/jsontools/core/service/JsonModifierDataDecoratorTest.class
+com/ioio/jsontools/core/service/diff/TextDiffTest.class
 com/ioio/jsontools/core/CoreAppTest.class
 com/ioio/jsontools/core/service/JsonMinifierTest.class
 com/ioio/jsontools/core/service/JsonFilterDataConfigStrategyServiceTest.class

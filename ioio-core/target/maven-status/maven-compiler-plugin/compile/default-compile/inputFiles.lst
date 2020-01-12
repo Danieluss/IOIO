@@ -2,6 +2,7 @@
 /home/travis/build/Danieluss/IOIO/ioio-core/src/main/java/com/ioio/jsontools/core/CoreApp.java
 /home/travis/build/Danieluss/IOIO/ioio-core/src/main/java/com/ioio/jsontools/core/service/filter/JsonFilter.java
 /home/travis/build/Danieluss/IOIO/ioio-core/src/main/java/com/ioio/jsontools/core/service/whitespace/JsonMinifier.java
+/home/travis/build/Danieluss/IOIO/ioio-core/src/main/java/com/ioio/jsontools/core/service/diff/TextDiff.java
 /home/travis/build/Danieluss/IOIO/ioio-core/src/main/java/com/ioio/jsontools/core/service/whitespace/WhitespaceConfig.java
 /home/travis/build/Danieluss/IOIO/ioio-core/src/main/java/com/ioio/jsontools/core/service/CoreService.java
 /home/travis/build/Danieluss/IOIO/ioio-core/src/main/java/com/ioio/jsontools/core/service/JsonModifier.java

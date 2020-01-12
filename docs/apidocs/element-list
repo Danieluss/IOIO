@@ -5,5 +5,6 @@ com.ioio.jsontools.core.config
 com.ioio.jsontools.core.rest
 com.ioio.jsontools.core.rest.data
 com.ioio.jsontools.core.service
+com.ioio.jsontools.core.service.diff
 com.ioio.jsontools.core.service.filter
 com.ioio.jsontools.core.service.whitespace

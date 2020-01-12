@@ -28,6 +28,8 @@ public class CoreRestDescriptor {
     public static final String MINIFY_REST = MODIFIER_BASE + "/" + MINIFY;
     public static final String MAXIFY_REST = MODIFIER_BASE + "/" + MAXIFY;
 
+    public static final String DIFF_REST = "/diff";
+
     public static final String PING_REST = "/ping";
 
 }

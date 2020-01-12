@@ -5,7 +5,7 @@
 
     <groupId>com.ioio</groupId>
     <artifactId>ioio</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <packaging>pom</packaging>
 
@@ -33,13 +33,14 @@
     <scm>
         <connection>scm:git:https://Danieluss@github.com/ioio.git</connection>
         <developerConnection>scm:git:https://Danieluss@github.com/ioio.git</developerConnection>
-    </scm>
+      <tag>ioio-1.1</tag>
+  </scm>
 
     <modules>
         <module>ioio-base</module>
         <module>ioio-core</module>
         <module>ioio-core-api</module>
-        <module>ioio-frontend</module>
+        <module>ioio-frontend-app</module>
         <module>ioio-bundle</module>
     </modules>
 
@@ -61,6 +62,15 @@
                 <version>1.0-m3</version>
                 <configuration>
                     <noDeploy>true</noDeploy>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <pushChanges>false</pushChanges>
+                    <localCheckout>true</localCheckout>
                 </configuration>
             </plugin>
         </plugins>

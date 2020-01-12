@@ -29,6 +29,7 @@ public interface JsonModifier {
      */
     public String modify(String json) throws JsonProcessingException;
 
+    /** Class for builder configuration. */
     @Configuration
     public static class BuilderConfig {
 
@@ -40,17 +41,24 @@ public interface JsonModifier {
 
     }
 
+    /** Builder constructor. */
     @AllArgsConstructor
     public static class Builder {
 
         private JsonModifier jsonModifier = new JsonModifierImpl();
         private JsonFilter whitelist, blacklist;
 
+        /** This method initializes new JsonMinifier.
+         * @return this builder.
+         */
         public Builder minify() {
             jsonModifier = new JsonMinifier(jsonModifier);
             return this;
         }
 
+        /** This method initializes new JsonMaxifier.
+         * @return this builder.
+         */
         public Builder maxify() {
             jsonModifier = new JsonMaxifier(jsonModifier);
             return this;
@@ -64,16 +72,24 @@ public interface JsonModifier {
             return maxify();
         }
 
+        /**
+         * This method initializes new JsonModifier as whitelist.
+         * @return this builder.
+         */
         public Builder whitelist(String filter) {
             jsonModifier = new JsonFilterModifier(jsonModifier, filter, whitelist);
             return this;
         }
 
+        /** This method initializes new JsonModifier as blacklist.
+         * @return this builder.
+         */
         public Builder blacklist(String filter) {
             jsonModifier = new JsonFilterModifier(jsonModifier, filter, blacklist);
             return this;
         }
 
+        /** Builds JsonModifier from Builder. */
         public JsonModifier build() {
             return jsonModifier;
         }

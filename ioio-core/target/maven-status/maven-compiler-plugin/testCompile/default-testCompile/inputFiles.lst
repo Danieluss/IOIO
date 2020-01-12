@@ -1,6 +1,7 @@
 /home/travis/build/Danieluss/IOIO/ioio-core/src/test/java/com/ioio/jsontools/core/service/CoreControllerTest.java
 /home/travis/build/Danieluss/IOIO/ioio-core/src/test/java/com/ioio/jsontools/core/service/JsonMaxifierTest.java
 /home/travis/build/Danieluss/IOIO/ioio-core/src/test/java/com/ioio/jsontools/core/service/JsonMinifierTest.java
+/home/travis/build/Danieluss/IOIO/ioio-core/src/test/java/com/ioio/jsontools/core/service/diff/TextDiffTest.java
 /home/travis/build/Danieluss/IOIO/ioio-core/src/test/java/com/ioio/jsontools/core/service/JsonModifierDataDecoratorTest.java
 /home/travis/build/Danieluss/IOIO/ioio-core/src/test/java/com/ioio/jsontools/core/CoreAppTest.java
 /home/travis/build/Danieluss/IOIO/ioio-core/src/test/java/com/ioio/jsontools/core/service/JsonFilterDataConfigStrategyServiceTest.java

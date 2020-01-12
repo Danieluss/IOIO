@@ -6,6 +6,7 @@ import com.ioio.jsontools.core.service.filter.FilterStrategy;
 import com.ioio.jsontools.core.service.filter.JsonFilter;
 import com.ioio.jsontools.core.service.filter.JsonFilterModifier;
 import com.ioio.jsontools.core.service.whitespace.JsonMaxifier;
+import com.ioio.jsontools.core.service.whitespace.JsonMinifier;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,5 +24,13 @@ public class JsonModifierDataDecoratorTest {
         testDecorators(jsonModifier,
                 "{\"obj\": {\"arr\": [{\"abc\": \"some text\", \"def\": 999}, {\"abc\": \"some other text\", \"def\": 112}], \"xyz\": \"value\"}}",
                 "{\n  \"obj\" : {\n    \"arr\" : [ {\n      \"def\" : 999\n    }, {\n      \"def\" : 112\n    } ],\n    \"xyz\" : \"value\"\n  }\n}");
+    }
+
+    @Test
+    public void shouldMinifyFiltered() throws JsonProcessingException {
+        JsonModifier jsonModifier = new JsonMinifier(new JsonFilterModifier(new JsonModifierImpl(), "{\"obj\": {\"arr\": {\"__array__\": {\"def\": true}}, \"xyz\": true}}", new JsonFilter(new ObjectMapper(), FilterStrategy.WHITELIST)));
+        testDecorators(jsonModifier,
+                "{\n  \"obj\" : {\n  \"arr\" : [{\n  \"abc\" : \"some text\", \"def\": 999\n    }, {\n  \"abc\" : \"some other text\", \"def\": 112 \n }],\n\"xyz\" : \"value\"\n}}",
+                "{\"obj\":{\"arr\":[{\"def\":999},{\"def\":112}],\"xyz\":\"value\"}}");
     }
 }
