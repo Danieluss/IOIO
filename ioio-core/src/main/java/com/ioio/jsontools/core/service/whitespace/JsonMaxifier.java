@@ -1,6 +1,7 @@
 package com.ioio.jsontools.core.service.whitespace;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ioio.jsontools.core.service.JsonModifier;
 import com.ioio.jsontools.core.service.JsonModifierDecorator;
 
@@ -21,6 +22,15 @@ public class JsonMaxifier extends JsonModifierDecorator {
     }
 
     /**
+     * Constructor
+     * @param jsonModifier object that is decorated
+     * @param objectMapper object that needs to be used by decorator
+     */
+    public JsonMaxifier(JsonModifier jsonModifier, ObjectMapper objectMapper) {
+        super(jsonModifier, objectMapper);
+    }
+
+    /**
      * Method that changes json string received from previous decorators to a maxified form
      * @param json string to parse
      * @return maxified json in string format
@@ -37,6 +47,6 @@ public class JsonMaxifier extends JsonModifierDecorator {
      * @throws JsonProcessingException for invalid json format
      */
     private String maxify(String json) throws JsonProcessingException {
-        return objectMapper.readTree(json).toPrettyString();
+        return objectMapper.readTree(json).toPrettyString().replace(System.lineSeparator(), "\n");
     }
 }

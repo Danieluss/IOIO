@@ -3,6 +3,7 @@ package com.ioio.jsontools.core.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ioio.jsontools.core.CoreApp;
+import com.ioio.jsontools.core.rest.CoreController;
 import com.ioio.jsontools.core.rest.ModifierType;
 import com.ioio.jsontools.core.rest.data.JsonFilterData;
 import com.ioio.jsontools.core.rest.data.JsonModifiersData;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @RunWith(SpringRunner.class)
@@ -239,6 +242,121 @@ public class CoreControllerTest {
                         "    \"nested_object\" : 123\n" +
                         "  } ]\n" +
                         "}");
+    }
+
+    @Test
+    public void shouldUseServiceToPing() {
+        CoreService coreServiceMock = mock(CoreService.class);
+        CoreController coreController = new CoreController(coreServiceMock);
+
+        coreController.ping();
+
+        verify(coreServiceMock, times(1)).ping();
+    }
+
+    @Test
+    public void shouldUseServiceToMaxify() throws JsonProcessingException {
+        CoreService coreServiceMock = mock(CoreService.class);
+        CoreController coreController = new CoreController(coreServiceMock);
+
+        coreController.maxify("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}");
+
+        verify(coreServiceMock, times(1)).maxify("{\"some_field\": [1,2,3,4,{\"nested_object\": 123}]}");
+    }
+
+    @Test
+    public void shouldUseServiceToMinify() throws JsonProcessingException {
+        CoreService coreServiceMock = mock(CoreService.class);
+        CoreController coreController = new CoreController(coreServiceMock);
+
+        coreController.minify("{\n  \"some_object\" : {\n    \"x\" : 964,\n    \"y\" : \"aaaxx\"\n  }\n}");
+
+        verify(coreServiceMock, times(1)).minify("{\n  \"some_object\" : {\n    \"x\" : 964,\n    \"y\" : \"aaaxx\"\n  }\n}");
+    }
+
+    @Test
+    public void shouldUseJsonFilterDataToWhitelist() throws JsonProcessingException {
+        CoreService coreServiceMock = mock(CoreService.class);
+        JsonFilterData jsonFilterDataMock = mock(JsonFilterData.class);
+        CoreController coreController = new CoreController(coreServiceMock);
+
+        coreController.whitelist(jsonFilterDataMock);
+
+        verify(jsonFilterDataMock, times(1)).getJson();
+        verify(jsonFilterDataMock, times(1)).getFilter();
+    }
+
+    @Test
+    public void shouldUseServiceToWhitelist() throws JsonProcessingException {
+        CoreService coreServiceMock = mock(CoreService.class);
+        JsonFilterData jsonFilterDataMock = mock(JsonFilterData.class);
+
+        when(jsonFilterDataMock.getJson()).thenReturn("{\"some_field\": 123, \"some_other_field\": 1234}");
+        when(jsonFilterDataMock.getFilter()).thenReturn("{\"some_field\": true}");
+        CoreController coreController = new CoreController(coreServiceMock);
+
+        coreController.whitelist(jsonFilterDataMock);
+
+        verify(coreServiceMock, times(1))
+                .whitelist("{\"some_field\": 123, \"some_other_field\": 1234}", "{\"some_field\": true}");
+    }
+
+    @Test
+    public void shouldUseJsonFilterDataToBlacklist() throws JsonProcessingException {
+        CoreService coreServiceMock = mock(CoreService.class);
+        JsonFilterData jsonFilterDataMock = mock(JsonFilterData.class);
+        CoreController coreController = new CoreController(coreServiceMock);
+
+        coreController.blacklist(jsonFilterDataMock);
+
+        verify(jsonFilterDataMock, times(1)).getJson();
+        verify(jsonFilterDataMock, times(1)).getFilter();
+    }
+
+    @Test
+    public void shouldUseServiceToBlacklist() throws JsonProcessingException {
+        CoreService coreServiceMock = mock(CoreService.class);
+        JsonFilterData jsonFilterDataMock = mock(JsonFilterData.class);
+
+        when(jsonFilterDataMock.getJson()).thenReturn("{\"some_field\": 123, \"some_other_field\": 1234}");
+        when(jsonFilterDataMock.getFilter()).thenReturn("{\"some_field\": true}");
+        CoreController coreController = new CoreController(coreServiceMock);
+
+        coreController.blacklist(jsonFilterDataMock);
+
+        verify(coreServiceMock, times(1))
+                .blacklist("{\"some_field\": 123, \"some_other_field\": 1234}", "{\"some_field\": true}");
+    }
+
+    @Test
+    public void shouldUseJsonJsonModifiersDataToCombine() throws JsonProcessingException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        CoreService coreServiceMock = mock(CoreService.class);
+        JsonModifiersData jsonModifiersDataMock = mock(JsonModifiersData.class);
+        CoreController coreController = new CoreController(coreServiceMock);
+
+        coreController.combine(jsonModifiersDataMock);
+
+        verify(jsonModifiersDataMock, times(1)).getJson();
+        verify(jsonModifiersDataMock, times(1)).getModifiers();
+    }
+
+    @Test
+    public void shouldUseServiceToCombine() throws JsonProcessingException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        CoreService coreServiceMock = mock(CoreService.class);
+        JsonModifiersData jsonFilterDataMock = mock(JsonModifiersData.class);
+        ModifierData modifierDataMock1 = mock(ModifierData.class);
+        ModifierData modifierDataMock2 = mock(ModifierData.class);
+        List<ModifierData> modifiers = Arrays.asList(modifierDataMock1, modifierDataMock2);
+
+        when(jsonFilterDataMock.getJson()).thenReturn("{\"some_field\": 123, \"some_other_field\": 1234}");
+        when(jsonFilterDataMock.getModifiers()).thenReturn(modifiers);
+
+        CoreController coreController = new CoreController(coreServiceMock);
+
+        coreController.combine(jsonFilterDataMock);
+
+        verify(coreServiceMock, times(1))
+                .combine("{\"some_field\": 123, \"some_other_field\": 1234}", modifiers);
     }
 
 }
