@@ -1,7 +1,9 @@
 package com.ioio.jsontools.core.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.difflib.algorithm.DiffException;
 import com.ioio.jsontools.base.aspect.log.LogMethodCall;
+import com.ioio.jsontools.core.rest.data.DiffData;
 import com.ioio.jsontools.core.rest.data.JsonFilterData;
 import com.ioio.jsontools.core.rest.data.JsonModifiersData;
 import com.ioio.jsontools.core.service.CoreService;
@@ -51,5 +53,10 @@ public class CoreController {
     @PostMapping(value = COMBINED_REST)
     public String combine(@RequestBody JsonModifiersData jsonModifiersData) throws JsonProcessingException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         return coreService.combine(jsonModifiersData.getJson(), jsonModifiersData.getModifiers());
+    }
+
+    @PostMapping(value = DIFF_REST)
+    public String diff(@RequestBody DiffData diffData) throws DiffException {
+        return coreService.diff(diffData.getOldText(), diffData.getNewText());
     }
 }

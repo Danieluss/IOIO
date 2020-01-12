@@ -1,7 +1,9 @@
 package com.ioio.jsontools.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.difflib.algorithm.DiffException;
 import com.ioio.jsontools.core.rest.data.ModifierData;
+import com.ioio.jsontools.core.service.diff.TextDiff;
 import com.ioio.jsontools.core.service.filter.JsonFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +32,12 @@ public class CoreService {
 	@Autowired
 	private Provider<JsonModifier.Builder> jsonModifierBuilderProvider;
 
-	/** Method used to check if server responses properly. */
-    public String ping() {
-        return "Server responded properly.";
-    }
+	private TextDiff textDiff = new TextDiff();
+  
+    /** Method used to check if server responses properly. */
+  public String ping() {
+      return "Server responded properly.";
+  }
 
     /**
      * Method used to whitelist json.
@@ -84,5 +88,9 @@ public class CoreService {
 			method.invoke(builder, modifier.getParams());
         }
 		return builder.build().modify(json);
+	}
+
+	public String diff(String oldText, String newText) throws DiffException {
+		return textDiff.diff(oldText, newText);
 	}
 }
